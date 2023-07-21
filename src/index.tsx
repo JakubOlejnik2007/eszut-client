@@ -6,7 +6,6 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { register } from './utils/push-notifications.ts/push';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -26,4 +25,4 @@ reportWebVitals();
 // Learn more about service workers: https://cra.link/PWA
 //serviceWorkerRegistration.unregister();
 
-register();
+serviceWorkerRegistration.unregister();

@@ -9,14 +9,14 @@ export const register = async () => {
     }
 
     async function send() {
-        const register = await navigator.serviceWorker.register("worker.js", {
+        const register = await navigator.serviceWorker.register("/worker.js", {
             scope: "/",
         });
         const subscription = await register.pushManager.subscribe({
             userVisibleOnly: true,
             applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
         });
-        await fetch(urls.backend.push.subscribe, {
+        await fetch(`http://${config.backend}${urls.backend.push.subscribe}`, {
             method: "POST",
             body: JSON.stringify(subscription),
             headers: {
