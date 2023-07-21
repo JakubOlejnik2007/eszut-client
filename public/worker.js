@@ -10,3 +10,8 @@ self.addEventListener("push", (e) => {
         icon: "/eszut/img/icons/mstile-150x150.png",
     });
 });
+/*
+self.addEventListener("activate", (event) => {
+  // Tutaj możesz dodać inne czynności aktywacyjne, jeśli są potrzebne
+  event.waitUntil(self.clients.claim());
+});*/
