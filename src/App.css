@@ -6,3 +6,27 @@ body {
 .text-justify {
   text-align: justify;
 }
+
+@keyframes afterDeadlineAnim {
+  0% {
+      background-color: #f8f9fa;
+  }
+  20% {
+      background-color: #ffc107;
+  }
+  40% {
+      background-color: #dc3545;
+  }
+  60% {
+      background-color: #007bff;
+  }
+  80% {
+      background-color: #17a2b8;
+  }
+}
+
+.after-deadline {
+  animation-name: afterDeadlineAnim; 
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}

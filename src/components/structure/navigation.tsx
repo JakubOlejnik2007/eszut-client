@@ -2,10 +2,9 @@ import { IGroupedNavigation, INavigation } from "../../types/navigation";
 import { About } from "../pages/about";
 import { Account } from "../pages/account";
 import ReportProblem from "../pages/report-problem-page/report-problem";
-//import ShowProblems from "../pages/show-unsolved-problem/show-unsolved-problems.page"
 import urls from "../../utils/urls";
-import React from "react";
 import Login from "../pages/login/login";
+import ShowUnsolvedProblems from "../pages/show-unsolved-problems/show-unsolved-problems";
 
 export const nav: (INavigation | IGroupedNavigation)[] = [
   {
@@ -31,7 +30,7 @@ export const nav: (INavigation | IGroupedNavigation)[] = [
     isMenu: true,
     isPrivate: false,
     navs: [
-      //{ id: "4.1", path: urls.client.problems, name: "Zgłoszenia", element: <ShowProblems />, isMenu: true, isPrivate: false },
+      { id: "4.1", path: urls.client.problems, name: "Zgłoszenia", element: <ShowUnsolvedProblems />, isMenu: true, isPrivate: false },
       {
         id: "4.2",
         path: urls.client.account,

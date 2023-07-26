@@ -13,7 +13,7 @@ const AuthContext = createContext<{
      login: ((email: string, password: string) => Promise<boolean>) | (() => void),
      logout: () => void
 }>({
-     user: { name: "", email: "", AuthToken: "" },
+     user: {id: "", name: "", email: "", AuthToken: "" },
      login: () => { },
      logout: () => { }
 });
@@ -21,7 +21,7 @@ export const AuthData = () => useContext(AuthContext);
 
 
 export const AuthWrapper = () => {
-     const [user, setUser] = useState({ name: "", email: "", AuthToken: "" })
+     const [user, setUser] = useState({id: "", name: "", email: "", AuthToken: "" })
      const navigate = useNavigate()
 
      useEffect(() => {
@@ -44,11 +44,13 @@ export const AuthWrapper = () => {
           if (response.status !== 200) return false;
           else {
                setUser({
+                    id: response.data.id,
                     name: response.data.name,
                     email: response.data.email,
                     AuthToken: response.data.AuthToken
                })
                sessionStorage.setItem("user", JSON.stringify({
+                    id: response.data.id,
                     name: response.data.name,
                     email: response.data.email,
                     AuthToken: response.data.AuthToken
@@ -58,7 +60,7 @@ export const AuthWrapper = () => {
      };
      const logout = async () => {
           sessionStorage.removeItem("user");
-          setUser({ name: "", email: "", AuthToken: "" })
+          setUser({id: "", name: "", email: "", AuthToken: "" })
           navigate("/")
      }
      return (
