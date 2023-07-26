@@ -1,12 +1,19 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import { RenderMenu, RenderRoutes } from "../components/structure/render-navigation";
 import { useNavigate } from "react-router-dom/dist";
-import React from "react";
+import { IUser } from "../types/user";
+import axios from "axios";
+import { config } from "../utils/config";
+import urls from "../utils/urls";
 //import { sendFetchRequest } from "../utils/send-fetch-request";
 //import urls from "../utils/urls";
 
-const AuthContext = createContext({
-     user: { id: "", name: "", email: "", isAuthenticated: false },
+const AuthContext = createContext<{
+     user: IUser,
+     login: ((email: string, password: string) => Promise<boolean>) | (() => void),
+     logout: () => void
+}>({
+     user: { name: "", email: "", AuthToken: "" },
      login: () => { },
      logout: () => { }
 });
@@ -14,38 +21,45 @@ export const AuthData = () => useContext(AuthContext);
 
 
 export const AuthWrapper = () => {
-     const [user, setUser] = useState({ id: "", name: "", email: "", isAuthenticated: false })
+     const [user, setUser] = useState({ name: "", email: "", AuthToken: "" })
      const navigate = useNavigate()
-     const login = async (/*email: string, password: string, setErrorFunction: Dispatch<SetStateAction<{ message: string; visibility: boolean; }>>*/) => {
-          /*const responseData = await sendFetchRequest(urls.backend.auth.login, "POST", setErrorFunction, "Błąd podczas logowania.", {
+
+     useEffect(() => {
+          const userDataFromSession = sessionStorage.getItem("user");
+          if (userDataFromSession) {
+            const parsedUserData = JSON.parse(userDataFromSession);
+            setUser(parsedUserData);
+          }
+        }, []);
+
+     const login = async (email: string, password: string) => {
+
+          const response = await axios.post(
+               `http://${config.backend}${urls.backend.auth.login}`, {
                email: email,
                password: password
-          });
-
-          if (
-               'status' in responseData && responseData.status === "OK"
-               && 'admin' in responseData && responseData.admin !== undefined
-          ) {
-               setUser({
-                    id: responseData.admin._id,
-                    name: responseData.admin.name,
-                    email: responseData.admin.email,
-                    isAuthenticated: true
-               })
-               return responseData.admin;
-          } else {
-               let data = {
-                    status: responseData.status,
-                    error: responseData.error
-               }
-               return data;
           }
-          */
-     }
+          );
 
+          if (response.status !== 200) return false;
+          else {
+               setUser({
+                    name: response.data.name,
+                    email: response.data.email,
+                    AuthToken: response.data.AuthToken
+               })
+               sessionStorage.setItem("user", JSON.stringify({
+                    name: response.data.name,
+                    email: response.data.email,
+                    AuthToken: response.data.AuthToken
+               }));
+               return true;
+          }
+     };
      const logout = async () => {
-          setUser({ id: "", name: "", email: "", isAuthenticated: false })
-          navigate("/eszut")
+          sessionStorage.removeItem("user");
+          setUser({ name: "", email: "", AuthToken: "" })
+          navigate("/")
      }
      return (
 
@@ -59,5 +73,5 @@ export const AuthWrapper = () => {
           </AuthContext.Provider>
 
      )
-
 }
+

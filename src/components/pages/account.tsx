@@ -7,7 +7,7 @@ export const Account = () => {
      return (
           <div className="page">
                <h2>Your Account</h2>
-               <p>Username: {user.name} {user.isAuthenticated ? "true" : "false"}</p>
+               <p>Username: {user.name} {user.AuthToken ? "true" : "false"}</p>
           </div>
      )
 }

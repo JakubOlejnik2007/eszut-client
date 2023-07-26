@@ -32,7 +32,7 @@ export const RenderRoutes = () => {
     <Routes>
       {flattenNav(nav).map((r, i) => {
         if ("path" in r) {
-          if ((r.isPrivate && user.isAuthenticated) || !r.isPrivate)
+          if ((r.isPrivate && user.AuthToken) || !r.isPrivate)
             return renderRoute(r);
           else return false;
         } else return false;
@@ -51,7 +51,7 @@ export const RenderMenu = () => {
   const { user, logout } = AuthData();
 
   const renderDropdownMenuItem = (r: INavigation) => {
-    if ((!r.isPrivate || user.isAuthenticated) && r.isMenu) {
+    if ((!r.isPrivate || user.AuthToken) && r.isMenu) {
       return (
         <NavDropdown.Item key={r.id} as={NavLink} to={r.path}>
           {r.name}
@@ -60,7 +60,7 @@ export const RenderMenu = () => {
     } else return false;
   };
   const renderMenuItem = (r: INavigation) => {
-    if ((!r.isPrivate || user.isAuthenticated) && r.isMenu) {
+    if ((!r.isPrivate || user.AuthToken) && r.isMenu) {
       return (
         <NavLink key={r.id} to={r.path} className='nav-link'>
           {r.name}
@@ -72,7 +72,7 @@ export const RenderMenu = () => {
     return navs.map((r, i) => {
       if ("path" in r) return renderMenuItem(r);
       else if ("navs" in r) {
-        if ((!r.isPrivate || user.isAuthenticated) && r.isMenu) {
+        if ((!r.isPrivate || user.AuthToken) && r.isMenu) {
           return (
             <NavDropdown key={-2} title={r.name}>
               {r.navs.map((item, _) => {
@@ -103,7 +103,7 @@ export const RenderMenu = () => {
           <Nav className='w-100'>
             {renderMenuItems(nav)}
 
-            {user.isAuthenticated ? (
+            {user.AuthToken ? (
               <NavLink
                 key={0}
                 to={"#"}
@@ -115,7 +115,7 @@ export const RenderMenu = () => {
             ) : (
               <NavLink
                 key={-1}
-                to={"eszut/login"}
+                to={"/login"}
                 className='nav-link ms-sm-auto'
               >
                 Zaloguj się do PA

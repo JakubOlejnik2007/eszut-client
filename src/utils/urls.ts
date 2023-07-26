@@ -8,7 +8,7 @@ const urls = {
     },
     backend: {
         auth: {
-            login: "/api/login",
+            login: "/login",
         },
         problem: {
             getUnsolvedProblems: "/get-unsolved-problems",
