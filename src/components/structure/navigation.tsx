@@ -2,10 +2,10 @@ import { IGroupedNavigation, INavigation } from "../../types/navigation";
 import { About } from "../pages/about";
 import { Account } from "../pages/account";
 import ReportProblem from "../pages/report-problem-page/report-problem";
-//import Login from "../pages/login"
 //import ShowProblems from "../pages/show-unsolved-problem/show-unsolved-problems.page"
 import urls from "../../utils/urls";
 import React from "react";
+import Login from "../pages/login/login";
 
 export const nav: (INavigation | IGroupedNavigation)[] = [
   {
@@ -24,7 +24,7 @@ export const nav: (INavigation | IGroupedNavigation)[] = [
     isMenu: true,
     isPrivate: false,
   },
-  //{ id: "3", path: urls.client.login, name: "Zalugj się do PA", element: <Login />, isMenu: false, isPrivate: false },
+  { id: "3", path: urls.client.login, name: "Zalugj się do PA", element: <Login />, isMenu: false, isPrivate: false },
   {
     id: "4",
     name: "Panel administratora",

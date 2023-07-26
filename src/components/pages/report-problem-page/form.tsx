@@ -44,11 +44,16 @@ const ReportProblemForm = () => {
       };
     });
   };
-  
+
   if (query1.isError || query2.isError) return (
     <Alert variant="danger" className="text-center">Błąd podczas pobierania danych z serwera. Proszę zaczekać i odświeżyć stronę! <br /> Formularz nie został wyrenderowany.</Alert>
   )
-  if (query1.isLoading || query2.isLoading) return <>Loading</>;
+  if (query1.isLoading || query2.isLoading) return (
+    <div className="h-100 d-flex align-items-center justify-content-center">
+      <div className="spinner-border" role="status">
+      </div>
+    </div>
+  );
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -117,7 +122,7 @@ const ReportProblemForm = () => {
 
   return (
     <Form
-       onSubmit={handleSubmit}
+      onSubmit={handleSubmit}
     >
       <h2 className='h3 text-center'>Formularz</h2>
       {inputs.map((input, _) => {
