@@ -8,7 +8,7 @@ import fetchCategories from "../../../fetchers/fetch-categories";
 import fetchPlaces from "../../../fetchers/fetch-places";
 import { ICategory, IPlace, IOption } from "../../../types/forms-data";
 import { IFormInput } from "../../../types/input";
-import { callError, callSuccess } from "../../../utils/toast-notifications/toast";
+import { callError, callLoadingWithPromise, callSuccess } from "../../../utils/toast-notifications/toast";
 import isArrayOfCategories from "../../../utils/type-guards/categories";
 import isArrayOfPlaces from "../../../utils/type-guards/places";
 import isReactQueryError from "../../../utils/type-guards/react-query-error";
@@ -139,16 +139,15 @@ const ReportProblemForm = () => {
       callError("Brakuje danych do wysłania zgłoszenia!")
     }
     else {
-      try {
-        const response = await axios.post(`http://${config.backend}${urls.backend.problem.insertProblem}`, formValues);
-        if (response.status === 200) {
-          callSuccess("Udało się dodać zgłoszenie!");
-          handleReset();
-        } else {
-          throw new Error("Błąd podczas dodawania zgłoszenia!");
-        }
-      } catch {
-        callError("Nie udało się dodać zgłoszenia!")
+      const response = await callLoadingWithPromise(
+        "Dodawanie zgłoszenia...",
+        axios.post(`http://${config.backend}${urls.backend.problem.insertProblem}`, data),
+        "Udało się dodać zgłoszenie!",
+        "Nie udało się dodać zgłoszenia!"
+      );
+      if (response.status === 200) {
+        callSuccess("Udało się dodać zgłoszenie!");
+        handleReset();
       }
     }
   }
