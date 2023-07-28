@@ -2,17 +2,21 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { TReportFormValues } from "../../../types/forms";
 import FormInput from "../../partials/form-input";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useQuery } from "react-query";
 import fetchCategories from "../../../fetchers/fetch-categories";
 import fetchPlaces from "../../../fetchers/fetch-places";
 import { ICategory, IPlace, IOption } from "../../../types/forms-data";
 import { IFormInput } from "../../../types/input";
-import { callError } from "../../../utils/toast-notifications/toast";
+import { callError, callSuccess } from "../../../utils/toast-notifications/toast";
 import isArrayOfCategories from "../../../utils/type-guards/categories";
 import isArrayOfPlaces from "../../../utils/type-guards/places";
 import isReactQueryError from "../../../utils/type-guards/react-query-error";
 import { Alert } from "react-bootstrap";
+import urls from "../../../utils/urls";
+import axios from "axios";
+import IProblem from "../../../types/problem";
+import { config } from "../../../utils/config";
 
 const ReportProblemForm = () => {
   const query1 = useQuery("categories", fetchCategories, { staleTime: 60000 });
@@ -58,6 +62,8 @@ const ReportProblemForm = () => {
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
+    console.log(e.target.name);
+    console.log(formValues);
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
 
@@ -115,8 +121,36 @@ const ReportProblemForm = () => {
       ],
     },
   ];
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const rawdata = new FormData(form);
+    const data = Object.fromEntries(rawdata.entries()) as unknown as IProblem;
+
+    if (
+      !('who' in data && data.who !== "") ||
+      !('PlaceID' in data && data.PlaceID !== "") ||
+      !('CategoryID' in data && data.CategoryID !== "") ||
+      !('priority' in data && String(data.priority) !== "") ||
+      !('what' in data && data.what !== "")
+    ) {
+
+      callError("Brakuje danych do wysłania zgłoszenia!")
+    }
+    else {
+      try {
+        const response = await axios.post(`http://${config.backend}${urls.backend.problem.insertProblem}`, formValues);
+        if (response.status === 200) {
+          callSuccess("Udało się dodać zgłoszenie!");
+          handleReset();
+        } else {
+          throw new Error("Błąd podczas dodawania zgłoszenia!");
+        }
+      } catch {
+        callError("Nie udało się dodać zgłoszenia!")
+      }
+    }
   }
 
 

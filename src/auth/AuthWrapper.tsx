@@ -5,6 +5,7 @@ import { IUser } from "../types/user";
 import axios from "axios";
 import { config } from "../utils/config";
 import urls from "../utils/urls";
+import { callError, callLoadingWithPromise } from "../utils/toast-notifications/toast";
 //import { sendFetchRequest } from "../utils/send-fetch-request";
 //import urls from "../utils/urls";
 
@@ -21,59 +22,73 @@ export const AuthData = () => useContext(AuthContext);
 
 
 export const AuthWrapper = () => {
-     const [user, setUser] = useState({id: "", name: "", email: "", AuthToken: "" })
-     const navigate = useNavigate()
-
+     const [user, setUser] = useState({ id: "", name: "", email: "", AuthToken: "" });
+     const navigate = useNavigate();
+   
      useEffect(() => {
-          const userDataFromSession = sessionStorage.getItem("user");
-          if (userDataFromSession) {
-            const parsedUserData = JSON.parse(userDataFromSession);
-            setUser(parsedUserData);
-          }
-        }, []);
-
+       const userDataFromSession = sessionStorage.getItem("user");
+       if (userDataFromSession) {
+         const parsedUserData = JSON.parse(userDataFromSession);
+         setUser(parsedUserData);
+       }
+     }, []);
+   
      const login = async (email: string, password: string) => {
-
-          const response = await axios.post(
-               `http://${config.backend}${urls.backend.auth.login}`, {
-               email: email,
-               password: password
-          }
-          );
-
-          if (response.status !== 200) return false;
-          else {
-               setUser({
-                    id: response.data.id,
-                    name: response.data.name,
-                    email: response.data.email,
-                    AuthToken: response.data.AuthToken
-               })
-               sessionStorage.setItem("user", JSON.stringify({
-                    id: response.data.id,
-                    name: response.data.name,
-                    email: response.data.email,
-                    AuthToken: response.data.AuthToken
-               }));
-               return true;
-          }
+       try {
+         // Wyświetlenie powiadomienia ładowania podczas próby logowania.
+         const loadingPromise = callLoadingWithPromise(
+           "Trwa logowanie...",
+           axios.post(`http://${config.backend}${urls.backend.auth.login}`, {
+             email: email,
+             password: password,
+           }),
+           "Zalogowano pomyślnie!",
+           "Błąd logowania. Sprawdź poprawność danych."
+         );
+   
+         const response = await loadingPromise;
+   
+         if (response && response.status === 200) {
+           setUser({
+             id: response.data.id,
+             name: response.data.name,
+             email: response.data.email,
+             AuthToken: response.data.AuthToken,
+           });
+           sessionStorage.setItem(
+             "user",
+             JSON.stringify({
+               id: response.data.id,
+               name: response.data.name,
+               email: response.data.email,
+               AuthToken: response.data.AuthToken,
+             })
+           );
+           return true;
+         } else {
+           return false;
+         }
+       } catch {
+         return false;
+       }
      };
+   
      const logout = async () => {
-          sessionStorage.removeItem("user");
-          setUser({id: "", name: "", email: "", AuthToken: "" })
-          navigate("/")
-     }
+       sessionStorage.removeItem("user");
+       setUser({ id: "", name: "", email: "", AuthToken: "" });
+       navigate("/");
+     };
+   
      return (
-
-          <AuthContext.Provider value={{ user, login, logout }}>
-               <>
-                    <RenderMenu />
-                    <main className="container bg-light p-4">
-                         <RenderRoutes />
-                    </main>
-               </>
-          </AuthContext.Provider>
-
-     )
-}
+       <AuthContext.Provider value={{ user, login, logout }}>
+         <>
+           <RenderMenu />
+           <main className="container bg-light p-4">
+             <RenderRoutes />
+           </main>
+         </>
+       </AuthContext.Provider>
+     );
+   };
+   
 

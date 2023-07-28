@@ -30,3 +30,7 @@ body {
   animation-duration: 4s;
   animation-iteration-count: infinite;
 }
+
+.smaller-text {
+  font-size: 0.8rem;
+}
