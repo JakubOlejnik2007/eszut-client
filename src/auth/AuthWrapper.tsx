@@ -5,9 +5,7 @@ import { IUser } from "../types/user";
 import axios from "axios";
 import { config } from "../utils/config";
 import urls from "../utils/urls";
-import { callError, callLoadingWithPromise } from "../utils/toast-notifications/toast";
-//import { sendFetchRequest } from "../utils/send-fetch-request";
-//import urls from "../utils/urls";
+import { callLoadingWithPromise } from "../utils/toast-notifications/toast";
 
 const AuthContext = createContext<{
      user: IUser,
@@ -35,7 +33,6 @@ export const AuthWrapper = () => {
    
      const login = async (email: string, password: string) => {
        try {
-         // Wyświetlenie powiadomienia ładowania podczas próby logowania.
          const loadingPromise = callLoadingWithPromise(
            "Trwa logowanie...",
            axios.post(`http://${config.backend}${urls.backend.auth.login}`, {

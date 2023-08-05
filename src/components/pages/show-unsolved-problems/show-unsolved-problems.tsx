@@ -9,14 +9,14 @@ import isReactQueryError from "../../../utils/type-guards/react-query-error";
 import UnsolvedProblem from "./unsolved-problem";
 
 const ShowUnsolvedProblems = () => {
-    console.log("rendered");
 
     const { user } = AuthData();
     const [underYou, setUnderYou] = useState<IProblem[]>([]);
     const [underRealization, setUnderRealization] = useState<IProblem[]>([]);
     const [other, setOther] = useState<IProblem[]>([]);
-
-    const problemsQuery = useQuery("unsolved-problems", () => fetchUnsolvedProblems(user.AuthToken), { staleTime: 60000 });
+    const problemsQuery = useQuery("unsolved-problems", () =>
+        fetchUnsolvedProblems(user.AuthToken)
+        , { staleTime: 60000, /*enabled: !!user.AuthToken*/ });
 
 
     useEffect(() => {
@@ -49,7 +49,7 @@ const ShowUnsolvedProblems = () => {
     }, [problemsQuery.isError, problemsQuery.error, problemsQuery.isSuccess, problemsQuery.data, user.id]);
 
     if (problemsQuery.isError) return (
-        <Alert variant="danger" className="text-center">Błąd podczas pobierania danych z serwera. Proszę zaczekać i odświeżyć stronę! <br /> Formularz nie został wyrenderowany.</Alert>
+        <Alert variant="danger" className="text-center">Błąd podczas pobierania danych z serwera. Proszę zaczekać i odświeżyć stronę! <br /> Brak dostępu do danych</Alert>
     )
     if (problemsQuery.isLoading) return (
         <div className="h-100 d-flex align-items-center justify-content-center">

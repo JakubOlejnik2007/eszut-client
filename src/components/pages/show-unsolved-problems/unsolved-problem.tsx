@@ -1,16 +1,29 @@
 import classNames from "classnames"
 import IProblem from "../../../types/problem";
 import TableRow from "../../partials/table-row";
+import calculateDates from "../../../utils/calculateDates";
+import { useState } from "react";
+import UnsolvedProblemModal from "./modal/unsolved-problem-modal";
 
 const UnsolvedProblem: React.FC<IProblem> = (props) => {
 
-    let when = new Date(props.when);
-    let deadline = new Date(props.when + (43200000 * 2 ** (Number(props.priority) - 1)))
-    let timeToDeadline = props.when + (43200000 * 2 ** (Number(props.priority) - 1)) - Date.now()
+    const [showModal, setShowModal] = useState(false);
+
+    const handleDoubleClick = () => {
+        console.log("Double click")
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        console.log("Close handled", showModal)
+    };
+
+    const { when, deadline, timeToDeadline } = calculateDates(props.priority, props.when)
 
     return (
         <>
-            <article className="col-md-6 col-lg-4">
+            <article className="col-md-6 col-lg-4" onDoubleClickCapture={handleDoubleClick}>
                 <div className="border">
                     <div className="row gx-1">
                         <div className={classNames("col-6", {
@@ -30,7 +43,13 @@ const UnsolvedProblem: React.FC<IProblem> = (props) => {
                         {props.isUnderRealization && <TableRow first_col={"Realizujący"} second_col={props.whoDeals} />}
                     </div>
                 </div>
+
+                <UnsolvedProblemModal {...props} show={showModal} handleClose={handleCloseModal} />
+
             </article>
+
+            
+
         </>
 
     )
