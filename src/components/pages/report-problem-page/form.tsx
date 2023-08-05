@@ -6,7 +6,6 @@ import { useState, useEffect, FormEvent } from "react";
 import { useQuery } from "react-query";
 import fetchCategories from "../../../fetchers/fetch-categories";
 import fetchPlaces from "../../../fetchers/fetch-places";
-import { ICategory, IPlace, IOption } from "../../../types/forms-data";
 import { IFormInput } from "../../../types/input";
 import { callError, callLoadingWithPromise, callSuccess } from "../../../utils/toast-notifications/toast";
 import isArrayOfCategories from "../../../utils/type-guards/categories";
@@ -15,8 +14,9 @@ import isReactQueryError from "../../../utils/type-guards/react-query-error";
 import { Alert } from "react-bootstrap";
 import urls from "../../../utils/urls";
 import axios from "axios";
-import IProblem from "../../../types/problem";
+import { IProblemForm } from "../../../types/problem";
 import { config } from "../../../utils/config";
+import mapOptions from "../../../utils/mapFormOptions";
 
 const ReportProblemForm = () => {
   const query1 = useQuery("categories", fetchCategories, { staleTime: 60000 });
@@ -40,14 +40,7 @@ const ReportProblemForm = () => {
     }
   }, [query1.error, query1.isError, query2.error, query2.isError]);
 
-  const mapOptions = (arrayOfOptions: ICategory[] | IPlace[]): IOption[] => {
-    return arrayOfOptions.map((item: ICategory | IPlace) => {
-      return {
-        value: String(item._id),
-        label: item.name,
-      };
-    });
-  };
+
 
   if (query1.isError || query2.isError) return (
     <Alert variant="danger" className="text-center">Błąd podczas pobierania danych z serwera. Proszę zaczekać i odświeżyć stronę! <br /> Formularz nie został wyrenderowany.</Alert>
@@ -62,8 +55,6 @@ const ReportProblemForm = () => {
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    console.log(e.target.name);
-    console.log(formValues);
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
 
@@ -126,7 +117,7 @@ const ReportProblemForm = () => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
     const rawdata = new FormData(form);
-    const data = Object.fromEntries(rawdata.entries()) as unknown as IProblem;
+    const data = Object.fromEntries(rawdata.entries()) as unknown as IProblemForm;
 
     if (
       !('who' in data && data.who !== "") ||

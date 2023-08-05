@@ -19,7 +19,7 @@ const UnsolvedProblem: React.FC<IProblem> = (props) => {
         console.log("Close handled", showModal)
     };
 
-    const { when, deadline, timeToDeadline } = calculateDates(props.priority, props.when)
+    const { when, deadline, timeToDeadline } = calculateDates(Number(props.priority), props.when)
 
     return (
         <>
@@ -48,7 +48,7 @@ const UnsolvedProblem: React.FC<IProblem> = (props) => {
 
             </article>
 
-            
+
 
         </>
 

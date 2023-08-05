@@ -6,6 +6,7 @@ import axios from "axios";
 import { config } from "../utils/config";
 import urls from "../utils/urls";
 import { callLoadingWithPromise } from "../utils/toast-notifications/toast";
+import { register } from "../utils/push-notifications/push";
 
 const AuthContext = createContext<{
      user: IUser,
@@ -46,6 +47,7 @@ export const AuthWrapper = () => {
          const response = await loadingPromise;
    
          if (response && response.status === 200) {
+            register();
            setUser({
              id: response.data.id,
              name: response.data.name,
