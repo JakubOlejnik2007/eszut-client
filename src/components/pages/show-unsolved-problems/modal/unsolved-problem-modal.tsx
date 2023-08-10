@@ -10,6 +10,10 @@ import { IValuesToEdit } from "../../../../types/states";
 import putUpdateUnsolvedProblem from "../../../../fetchers/put-update-unsolved-problem";
 import { callError, callSuccess } from "../../../../utils/toast-notifications/toast";
 import { Refresh } from "../show-unsolved-problems";
+import putTakeOnProblem from "../../../../fetchers/put-take-on-problem";
+import putRejectProblem from "../../../../fetchers/put-reject-problem";
+import putMarkProblemAsSolved from "../../../../fetchers/put-mark-problem-as-solved";
+import ConfirmationModal from "../../../partials/confirm-modal";
 
 
 const UnsolvedProblemModal: React.FC<IProblem & {
@@ -17,7 +21,7 @@ const UnsolvedProblemModal: React.FC<IProblem & {
 	handleClose: () => void;
 }> = (props) => {
 	const { user } = AuthData();
-	
+
 	const { refreshPage } = Refresh();
 	const { show, handleClose, ...restProps } = props;
 	const [valuesToEdit, setValuesToEdit] = useState<IValuesToEdit>({
@@ -28,11 +32,12 @@ const UnsolvedProblemModal: React.FC<IProblem & {
 		}
 	})
 
+	const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
 
 	const handleUpdateProblem = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault()
 		try {
-			putUpdateUnsolvedProblem(user.AuthToken, valuesToEdit.priority, valuesToEdit.category.id, props._id)
+			await putUpdateUnsolvedProblem(user.AuthToken, valuesToEdit.priority, valuesToEdit.category.id, props._id)
 			callSuccess("Zgłoszenie zaktualizowane!")
 			refreshPage();
 		} catch (error) {
@@ -40,19 +45,61 @@ const UnsolvedProblemModal: React.FC<IProblem & {
 		}
 	}
 
+	const handleOnClickTakeOnProblemButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		try {
+			await putTakeOnProblem(user.AuthToken, user.id, props._id);
+			callSuccess("Zgłoszenie zaktualizowane!")
+			refreshPage();
+		} catch {
+			callError("Nie udało sie zaktualizować zgłoszenia!")
+		}
+	}
+
+	const handleOnClickRejectProblemButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		try {
+			await putRejectProblem(user.AuthToken, props._id);
+			callSuccess("Zgłoszenie zaktualizowane!")
+			refreshPage();
+		} catch {
+			callError("Nie udało sie zaktualizować zgłoszenia!")
+		}
+	}
+
+	const handleCloseModal = () => {
+		setShowConfirmationModal(false);
+	};
+
+	const handleOnClickMarkProblemAsSolvedButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		setShowConfirmationModal(true)
+	}
+	const handleConfirm = async () => {
+		handleCloseModal();
+		try {
+			await putMarkProblemAsSolved(user.AuthToken, props._id, user.id);
+			callSuccess("Zgłoszenie zaktualizowane!")
+			refreshPage();
+		} catch {
+			callError("Nie udało sie zaktualizować zgłoszenia!")
+		}
+	};
+
 	const { when, deadline, timeToDeadline } = calculateDates(Number(props.priority), props.when)
 
 
 	return (
-		<Modal show={show} onHide={handleClose}>
+		<Modal show={show} onHide={handleClose} centered>
 			<Modal.Header closeButton>
 				<Modal.Title>Edytuj wybrane zgłoszenie</Modal.Title>
 			</Modal.Header>
+			<ConfirmationModal show={showConfirmationModal} onHide={handleCloseModal} onConfirm={handleConfirm} />
 			<Modal.Body className="row gx-1">
 				<div className={classNames("col-6", {
-                            "bg-danger": Number(props.priority) === 1,
-                            "bg-warning": Number(props.priority) === 2
-                        })}>&nbsp;</div>
+					"bg-danger": Number(props.priority) === 1,
+					"bg-warning": Number(props.priority) === 2
+				})}>&nbsp;</div>
 				<div className={timeToDeadline <= 0 ? classNames("col-6", "after-deadline") : "col-6"}>&nbsp;</div>
 				<TableRow first_col={"id"} second_col={restProps._id} />
 				<TableRow first_col={"Kategoria"} second_col={<EditCategory state={valuesToEdit} setState={setValuesToEdit} />} />
@@ -64,9 +111,10 @@ const UnsolvedProblemModal: React.FC<IProblem & {
 				<TableRow first_col={"Termin"} second_col={deadline.toLocaleString("pl")} />
 				<TableRow first_col={"Realizowane"} second_col={restProps.isUnderRealization ? "Tak" : "Nie"} />
 				{
-					restProps.isUnderRealization ? <TableRow first_col={"Realizujący"} second_col={restProps.whoDeals} />
-						: user.id === props._id ? <TableRow first_col={"Zrezygnuj z problemu"} second_col={"Zrezygnuj z problemu button"} />
-							: <TableRow first_col={"Podejmij problem"} second_col={"Podejmij problem button"} />
+					user.id === props.whoDealsID && props.isUnderRealization ? <><TableRow first_col={"Zrezygnuj"} second_col={<Button onClick={handleOnClickRejectProblemButton}>Zrezygnuj z  problemu</Button>} />
+						<TableRow first_col={"Czy rozwiązany?"} second_col={<Button onClick={handleOnClickMarkProblemAsSolvedButton}>Oznacz problem jako rozwiązany</Button>} /></>
+						: restProps.isUnderRealization ? <TableRow first_col={"Realizujący"} second_col={restProps.whoDeals} />
+							: <TableRow first_col={"Podejmij problem"} second_col={<Button onClick={handleOnClickTakeOnProblemButton}>Podejmij problem</Button>} />
 				}
 				<Button variant="secondary" onClick={handleUpdateProblem} className="mt-3">
 					Zapisz

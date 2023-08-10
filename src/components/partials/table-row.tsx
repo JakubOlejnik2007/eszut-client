@@ -6,8 +6,8 @@ type TableRowProps = {
 const TableRow: React.FC<TableRowProps> = (props) => {
     return (
         <>
-        <div className="col-4 border">{props.first_col}</div>
-        <div className="col-8 border">{props.second_col}</div>
+        <div className="col-4 border d-flex justify-content-center align-items-center p-1 text-center">{props.first_col}</div>
+        <div className="col-8 border d-flex justify-content-center align-items-center p-1 text-center">{props.second_col}</div>
         </>
     )
 }

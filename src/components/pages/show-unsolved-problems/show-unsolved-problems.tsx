@@ -44,7 +44,7 @@ const ShowUnsolvedProblems = () => {
             const underRealizationProblems: IProblem[] = [];
             const otherProblems: IProblem[] = [];
             problemsQuery.data.forEach((element: IProblem) => {
-                if (element.whoDealsID && user.id === element.whoDealsID) {
+                if (element.isUnderRealization && element.whoDealsID && user.id === element.whoDealsID) {
                     underYouProblems.push(element);
                 } else if (element.isUnderRealization) {
                     underRealizationProblems.push(element);

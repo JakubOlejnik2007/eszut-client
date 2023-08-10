@@ -16,7 +16,7 @@ import urls from "../../../utils/urls";
 import axios from "axios";
 import { IProblemForm } from "../../../types/problem";
 import { config } from "../../../utils/config";
-import mapOptions from "../../../utils/mapFormOptions";
+import mapOptions from "../../../utils/map-form-options";
 
 const ReportProblemForm = () => {
   const query1 = useQuery("categories", fetchCategories, { staleTime: 60000 });

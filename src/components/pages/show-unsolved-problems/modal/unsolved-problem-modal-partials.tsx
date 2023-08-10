@@ -7,7 +7,7 @@ import { callError } from "../../../../utils/toast-notifications/toast"
 import isReactQueryError from "../../../../utils/type-guards/react-query-error"
 import { Alert } from "react-bootstrap"
 import isArrayOfCategories from "../../../../utils/type-guards/categories"
-import mapOptions from "../../../../utils/mapFormOptions"
+import mapOptions from "../../../../utils/map-form-options"
 import { ICategory } from "../../../../types/forms-data"
 
 export const EditPriority: React.FC<{

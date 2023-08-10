@@ -14,6 +14,10 @@ const urls = {
             getUnsolvedProblems: "/get-unsolved-problems",
             insertProblem: "/report-problem",
             updateProblem: "/update-problem",
+            takeOnProblem: "/take-on-problem",
+            rejectProblem: "/reject-problem",
+            markProblemAsSolved: "/mark-problem-as-solved",
+            markProblemAsUnsolved: "/mark-problem-as-unsolved"
         },
         comment: {
             deleteComment: "/delete-comment",
