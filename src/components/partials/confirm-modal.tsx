@@ -5,7 +5,7 @@ interface IConfirmationModal { show: boolean, onHide: () => void, onConfirm: () 
 
 const ConfirmationModal = ({ show, onHide, onConfirm }: IConfirmationModal) => {
     return (
-        <Modal show={show} onHide={onHide} centered >
+        <Modal show={show} onHide={onHide} centered size='sm' >
             <div style={{ backgroundColor: '#f0f0f0' }}>
             <Modal.Header closeButton>
                 <Modal.Title>Potwierdzenie</Modal.Title>

@@ -1,6 +1,6 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { TReportFormValues } from "../../../types/forms";
+import { TReportFormValues } from "../../../types/form-inputs-names";
 import FormInput from "../../partials/form-input";
 import { useState, useEffect, FormEvent } from "react";
 import { useQuery } from "react-query";
@@ -8,17 +8,21 @@ import fetchCategories from "../../../fetchers/fetch-categories";
 import fetchPlaces from "../../../fetchers/fetch-places";
 import { IFormInput } from "../../../types/input";
 import { callError, callLoadingWithPromise, callSuccess } from "../../../utils/toast-notifications/toast";
-import isArrayOfCategories from "../../../utils/type-guards/categories";
-import isArrayOfPlaces from "../../../utils/type-guards/places";
-import isReactQueryError from "../../../utils/type-guards/react-query-error";
 import { Alert } from "react-bootstrap";
 import urls from "../../../utils/urls";
 import axios from "axios";
 import { IProblemForm } from "../../../types/problem";
 import { config } from "../../../utils/config";
 import mapOptions from "../../../utils/map-form-options";
+import { useNavigate } from "react-router-dom";
 
 const ReportProblemForm = () => {
+  const navigate = useNavigate();
+
+
+
+
+
   const query1 = useQuery("categories", fetchCategories, { staleTime: 60000 });
   const query2 = useQuery("places", fetchPlaces, { staleTime: 60000 });
   const [formValues, setFormValues] = useState({
@@ -29,18 +33,20 @@ const ReportProblemForm = () => {
     priority: 3,
   });
 
+
+
   useEffect(() => {
     if (
-      (query1.isError && isReactQueryError(query1.error)) ||
-      (query2.isError && isReactQueryError(query2.error))
+      (query1.isError) ||
+      (query2.isError)
     ) {
       callError(
         "Błąd połączenia z siecią. Proszę zaczekać chwilę i odświeżyć stronę."
       );
     }
-  }, [query1.error, query1.isError, query2.error, query2.isError]);
+  }, [navigate, query1.error, query1.isError, query2.error, query2.isError]);
 
-
+  
 
   if (query1.isError || query2.isError) return (
     <Alert variant="danger" className="text-center">Błąd podczas pobierania danych z serwera. Proszę zaczekać i odświeżyć stronę! <br /> Formularz nie został wyrenderowany.</Alert>
@@ -68,9 +74,8 @@ const ReportProblemForm = () => {
     });
   };
 
-  let categories, places;
-  categories = isArrayOfCategories(query1.data) ? query1.data : [];
-  places = isArrayOfPlaces(query2.data) ? query2.data : [];
+  const categories = query1.data
+  const places = query2.data
   const inputs: IFormInput[] = [
     {
       id: 1,

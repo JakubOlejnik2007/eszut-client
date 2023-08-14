@@ -5,7 +5,6 @@ import IProblem from "../../../types/problem";
 import { useQuery } from "react-query";
 import fetchUnsolvedProblems from "../../../fetchers/fetch-unsolved-problems";
 import { callError } from "../../../utils/toast-notifications/toast";
-import isReactQueryError from "../../../utils/type-guards/react-query-error";
 import UnsolvedProblem from "./unsolved-problem";
 
 const RefreshContext = createContext<{ refreshPage: () => void }>({ refreshPage: () => { } })
@@ -27,12 +26,12 @@ const ShowUnsolvedProblems = () => {
     const [other, setOther] = useState<IProblem[]>([]);
     const problemsQuery = useQuery("unsolved-problems", () =>
         fetchUnsolvedProblems(user.AuthToken)
-        , { staleTime: 60000, /*enabled: !!user.AuthToken*/ });
+        , { staleTime: 60000, enabled: !!user.AuthToken });
 
 
     useEffect(() => {
         if (
-            (problemsQuery.isError && isReactQueryError(problemsQuery.error))
+            (problemsQuery.isError)
         ) {
             callError(
                 "Błąd połączenia z siecią. Proszę zaczekać chwilę i odświeżyć stronę."
@@ -57,7 +56,7 @@ const ShowUnsolvedProblems = () => {
             setUnderRealization(underRealizationProblems);
             setOther(otherProblems);
         }
-    }, [problemsQuery.isError, problemsQuery.error, problemsQuery.isSuccess, problemsQuery.data, user.id]);
+    }, [problemsQuery.isError, problemsQuery.error, problemsQuery.isSuccess, problemsQuery.data, user.id, user.AuthToken]);
 
     if (problemsQuery.isError) return (
         <Alert variant="danger" className="text-center">Błąd podczas pobierania danych z serwera. Proszę zaczekać i odświeżyć stronę! <br /> Brak dostępu do danych</Alert>
@@ -76,7 +75,7 @@ const ShowUnsolvedProblems = () => {
 
     return (
         <RefreshContext.Provider value={{ refreshPage }}>
-            <div className="page text-justify">
+            <div className="text-justify">
                 <section className="row p-4">
                     <h1>Aktywne zgłoszenia</h1>
                     <p>

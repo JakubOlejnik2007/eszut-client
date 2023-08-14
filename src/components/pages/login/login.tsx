@@ -1,12 +1,12 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { AuthData } from "../../../auth/AuthWrapper";
 import urls from "../../../utils/urls";
 import FormInput from "../../partials/form-input";
 import { IFormInput } from "../../../types/input";
-import { TLoginFormValues } from "../../../types/forms";
-import { callError, callSuccess } from "../../../utils/toast-notifications/toast";
+import { TLoginFormValues } from "../../../types/form-inputs-names";
+import { callError } from "../../../utils/toast-notifications/toast";
 
 const Login = () => {
 
@@ -16,6 +16,7 @@ const Login = () => {
      });
 
      const { login } = AuthData();
+
      const navigate = useNavigate();
 
      const inputs: IFormInput[] = [
@@ -45,7 +46,6 @@ const Login = () => {
           const form = event.target as HTMLFormElement;
           const rawdata = new FormData(form);
           const data = Object.fromEntries(rawdata.entries());
-          console.log(data)
           if (
                !('email' in data && data.email !== "") ||
                !('password' in data && data.password !== "")

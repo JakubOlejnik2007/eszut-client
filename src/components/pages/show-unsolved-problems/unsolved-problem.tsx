@@ -10,13 +10,11 @@ const UnsolvedProblem: React.FC<IProblem> = (props) => {
     const [showModal, setShowModal] = useState(false);
 
     const handleDoubleClick = () => {
-        console.log("Double click")
         setShowModal(true);
     };
 
     const handleCloseModal = () => {
         setShowModal(false);
-        console.log("Close handled", showModal)
     };
 
     const { when, deadline, timeToDeadline } = calculateDates(Number(props.priority), props.when)

@@ -7,6 +7,7 @@ interface IProblem {
     what: string,
     when: number,
     isSolved: boolean,
+    whoSolvedID: string,
     whoSolved: string,
     dateOfSolved: number,
     isUnderRealization: boolean,

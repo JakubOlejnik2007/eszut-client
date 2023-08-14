@@ -4,9 +4,7 @@ import FormInput from "../../../partials/form-input"
 import fetchCategories from "../../../../fetchers/fetch-categories"
 import { useQuery } from "react-query"
 import { callError } from "../../../../utils/toast-notifications/toast"
-import isReactQueryError from "../../../../utils/type-guards/react-query-error"
 import { Alert } from "react-bootstrap"
-import isArrayOfCategories from "../../../../utils/type-guards/categories"
 import mapOptions from "../../../../utils/map-form-options"
 import { ICategory } from "../../../../types/forms-data"
 
@@ -38,7 +36,7 @@ export const EditCategory: React.FC<{
 
     useEffect(() => {
         if (
-            (categoryQuery.isError && isReactQueryError(categoryQuery.error))
+            (categoryQuery.isError)
         ) {
             callError(
                 "Błąd połączenia z siecią. Proszę zaczekać chwilę i odświeżyć stronę."
@@ -58,7 +56,7 @@ export const EditCategory: React.FC<{
     );
 
 
-    const categories: ICategory[] = isArrayOfCategories(categoryQuery.data) ? categoryQuery.data : [];
+    const categories: ICategory[] = categoryQuery.data;
     const options = mapOptions(categories);
     const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault();

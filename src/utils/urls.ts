@@ -1,10 +1,11 @@
 const urls = {
     client: {
         mainpage: "/",
-        about: "/about/",
-        login: "/login",
-        problems: "/zgloszenia/",
-        account: "/account",
+        about: "/o-aplikacji",
+        login: "/logowanie",
+        problems: "/zgloszenia",
+        archive: "/archiwum",
+        account: "/konto",
     },
     backend: {
         auth: {
@@ -12,6 +13,7 @@ const urls = {
         },
         problem: {
             getUnsolvedProblems: "/get-unsolved-problems",
+            getSolvedProblems: "/get-solved-problems",
             insertProblem: "/report-problem",
             updateProblem: "/update-problem",
             takeOnProblem: "/take-on-problem",
