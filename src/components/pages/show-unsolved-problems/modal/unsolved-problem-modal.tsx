@@ -2,19 +2,19 @@ import { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { AuthData } from "../../../../auth/AuthWrapper";
 import IProblem from "../../../../types/problem";
-import calculateDates from "../../../../utils/calculateDates";
+import calculateDates from "../../../../utils/calculate-dates";
 import TableRow from "../../../partials/table-row";
 import classNames from "classnames";
 import { EditCategory, EditPriority } from "./unsolved-problem-modal-partials";
 import { IValuesToEdit } from "../../../../types/states";
 import putUpdateUnsolvedProblem from "../../../../fetchers/put-update-unsolved-problem";
 import { callError, callSuccess } from "../../../../utils/toast-notifications/toast";
-import { Refresh } from "../show-unsolved-problems";
+import { Refresh } from "../display-problems";
 import putTakeOnProblem from "../../../../fetchers/put-take-on-problem";
 import putRejectProblem from "../../../../fetchers/put-reject-problem";
 import putMarkProblemAsSolved from "../../../../fetchers/put-mark-problem-as-solved";
 import ConfirmationModal from "../../../partials/confirm-modal";
-
+import { IOnConfirmActionsForUnsolvedProblems, TOnConfirmActionsForUnsolvedProblems } from "../../../../types/confirm-modal";
 
 const UnsolvedProblemModal: React.FC<IProblem & {
 	show: boolean;
@@ -24,6 +24,7 @@ const UnsolvedProblemModal: React.FC<IProblem & {
 
 	const { refreshPage } = Refresh();
 	const { show, handleClose, ...restProps } = props;
+
 	const [valuesToEdit, setValuesToEdit] = useState<IValuesToEdit>({
 		priority: props.priority,
 		category: {
@@ -32,59 +33,80 @@ const UnsolvedProblemModal: React.FC<IProblem & {
 		}
 	})
 
+	const [action, setAction] = useState<TOnConfirmActionsForUnsolvedProblems>("UPDATE PROBLEM");
+
 	const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
-
-	const handleUpdateProblem = async (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault()
-		try {
-			await putUpdateUnsolvedProblem(user.AuthToken, valuesToEdit.priority, valuesToEdit.category.id, props._id)
-			callSuccess("Zgłoszenie zaktualizowane!")
-			refreshPage();
-		} catch (error) {
-			callError("Nie udało się zaktualizować zgłoszenia!")
-		}
-	}
-
-	const handleOnClickTakeOnProblemButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault();
-		try {
-			await putTakeOnProblem(user.AuthToken, user.id, props._id);
-			callSuccess("Zgłoszenie zaktualizowane!")
-			refreshPage();
-		} catch {
-			callError("Nie udało sie zaktualizować zgłoszenia!")
-		}
-	}
-
-	const handleOnClickRejectProblemButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault();
-		try {
-			await putRejectProblem(user.AuthToken, props._id);
-			callSuccess("Zgłoszenie zaktualizowane!")
-			refreshPage();
-		} catch {
-			callError("Nie udało sie zaktualizować zgłoszenia!")
-		}
-	}
 
 	const handleCloseModal = () => {
 		setShowConfirmationModal(false);
 	};
 
+	const onConfirmActions: IOnConfirmActionsForUnsolvedProblems = {
+		"UPDATE PROBLEM": async () => {
+			try {
+				await putUpdateUnsolvedProblem(user.AuthToken, valuesToEdit.priority, valuesToEdit.category.id, props._id)
+				callSuccess("Zgłoszenie zaktualizowane!")
+				refreshPage();
+			} catch (error) {
+				callError("Nie udało się zaktualizować zgłoszenia!")
+			}
+		},
+		"TAKE ON PROBLEM": async () => {
+			try {
+				await putTakeOnProblem(user.AuthToken, user.id, props._id);
+				callSuccess("Zgłoszenie zaktualizowane!")
+				refreshPage();
+			} catch {
+				callError("Nie udało sie zaktualizować zgłoszenia!")
+			}
+		},
+		"REJECT PROBLEM": async () => {
+
+			try {
+				await putRejectProblem(user.AuthToken, props._id);
+				callSuccess("Zgłoszenie zaktualizowane!")
+				refreshPage();
+			} catch {
+				callError("Nie udało sie zaktualizować zgłoszenia!")
+			}
+		},
+		"MARK PROBLEM AS SOLVED": async () => {
+			handleCloseModal();
+			try {
+				await putMarkProblemAsSolved(user.AuthToken, props._id, user.id);
+				callSuccess("Zgłoszenie zaktualizowane!")
+				refreshPage();
+			} catch {
+				callError("Nie udało sie zaktualizować zgłoszenia!")
+			}
+		}
+	}
+
+
+
+	const handleOnClickUpdateProblem = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		setShowConfirmationModal(true)
+		setAction("UPDATE PROBLEM");
+	}
+
+	const handleOnClickTakeOnProblemButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		setShowConfirmationModal(true)
+		setAction("TAKE ON PROBLEM");
+	}
+
+	const handleOnClickRejectProblemButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		setShowConfirmationModal(true)
+		setAction("REJECT PROBLEM");
+	}
+
 	const handleOnClickMarkProblemAsSolvedButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		setShowConfirmationModal(true)
+		setAction("MARK PROBLEM AS SOLVED");
 	}
-	const handleConfirm = async () => {
-		handleCloseModal();
-		try {
-			await putMarkProblemAsSolved(user.AuthToken, props._id, user.id);
-			callSuccess("Zgłoszenie zaktualizowane!")
-			refreshPage();
-		} catch {
-			callError("Nie udało sie zaktualizować zgłoszenia!")
-		}
-	};
 
 	const { when, deadline, timeToDeadline } = calculateDates(Number(props.priority), props.when)
 
@@ -94,7 +116,7 @@ const UnsolvedProblemModal: React.FC<IProblem & {
 			<Modal.Header closeButton>
 				<Modal.Title>Edytuj wybrane zgłoszenie</Modal.Title>
 			</Modal.Header>
-			<ConfirmationModal show={showConfirmationModal} onHide={handleCloseModal} onConfirm={handleConfirm} />
+			<ConfirmationModal show={showConfirmationModal} onHide={handleCloseModal} onConfirm={onConfirmActions[action]} />
 			<Modal.Body className="row gx-1">
 				<div className={classNames("col-6", {
 					"bg-danger": Number(props.priority) === 1,
@@ -116,7 +138,7 @@ const UnsolvedProblemModal: React.FC<IProblem & {
 						: restProps.isUnderRealization ? <TableRow first_col={"Realizujący"} second_col={restProps.whoDeals} />
 							: <TableRow first_col={"Podejmij problem"} second_col={<Button onClick={handleOnClickTakeOnProblemButton}>Podejmij problem</Button>} />
 				}
-				<Button variant="secondary" onClick={handleUpdateProblem} className="mt-3">
+				<Button variant="secondary" onClick={handleOnClickUpdateProblem} className="mt-3">
 					Zapisz
 				</Button>
 			</Modal.Body>

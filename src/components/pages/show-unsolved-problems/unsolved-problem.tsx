@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import IProblem from "../../../types/problem";
 import TableRow from "../../partials/table-row";
-import calculateDates from "../../../utils/calculateDates";
+import calculateDates from "../../../utils/calculate-dates";
 import { useState } from "react";
 import UnsolvedProblemModal from "./modal/unsolved-problem-modal";
 

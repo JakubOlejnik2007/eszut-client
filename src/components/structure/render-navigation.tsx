@@ -115,7 +115,7 @@ export const RenderMenu = () => {
             ) : (
               <NavLink
                 key={-1}
-                to={"/login"}
+                to={urls.client.login}
                 className='nav-link ms-sm-auto'
               >
                 Zaloguj się do PA
