@@ -1,6 +1,6 @@
 import { IGroupedNavigation, INavigation } from "../../types/navigation";
 import { About } from "../pages/about";
-import { Account } from "../pages/account";
+import { Account } from "../pages/account/account";
 import ReportProblem from "../pages/report-problem-page/report-problem";
 import urls from "../../utils/urls";
 import Login from "../pages/login/login";
@@ -36,7 +36,7 @@ export const nav: (INavigation | IGroupedNavigation)[] = [
       {
         id: "4.3",
         path: urls.client.account,
-        name: "Account",
+        name: "Konto",
         element: <Account />,
         isMenu: true,
         isPrivate: true,

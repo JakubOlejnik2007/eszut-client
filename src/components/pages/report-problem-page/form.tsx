@@ -1,6 +1,6 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { TReportFormValues } from "../../../types/form-inputs-names";
+import { TReportFormNames } from "../../../types/form-inputs-names";
 import FormInput from "../../partials/form-input";
 import { useState, useEffect, FormEvent } from "react";
 import { useQuery } from "react-query";
@@ -76,7 +76,7 @@ const ReportProblemForm = () => {
 
   const categories = query1.data
   const places = query2.data
-  const inputs: IFormInput[] = [
+  const inputs: IFormInput<TReportFormNames>[] = [
     {
       id: 1,
       name: "who",
@@ -159,7 +159,7 @@ const ReportProblemForm = () => {
           <FormInput
             key={input.id}
             {...input}
-            value={formValues[input.name as TReportFormValues]}
+            value={formValues[input.name]}
             onChange={onChange}
           />
         );

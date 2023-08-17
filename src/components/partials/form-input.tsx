@@ -1,7 +1,7 @@
 import Form from "react-bootstrap/Form";
 import { IFormInput } from "../../types/input";
 
-const FormInput: React.FC<IFormInput> = (props) => {
+const FormInput: React.FC<IFormInput<any>> = (props) => {
   const { label, onChange, id, type, options, ...inputProps } = props;
 
   let controlProps: any = {

@@ -6,6 +6,7 @@ export type TOnConfirmActionsForUnsolvedProblems =
 
 export type TOnConfirmActionsForSolvedProblems = "MARK PROBLEM AS UNSOLVED";
 
+export type TOnConfirmChangeUserData = "CHANGE PASSWORD" | "CHANGE EMAIL";
 
 export interface IOnConfirmActionsForUnsolvedProblems{
     "TAKE ON PROBLEM" : () => Promise<void>;
@@ -16,4 +17,9 @@ export interface IOnConfirmActionsForUnsolvedProblems{
 
 export interface IOnConfirmActionsForSolvedProblems{
     "MARK PROBLEM AS UNSOLVED" : () => Promise<void>;
+}
+
+export interface IOnConfirmChangeUserData {
+    "CHANGE PASSWORD" : () => Promise<void>;
+    "CHANGE EMAIL" : () => Promise<void>;
 }

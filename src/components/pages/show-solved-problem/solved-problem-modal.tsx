@@ -60,7 +60,7 @@ const SolvedProblemModal: React.FC<IProblem & {
                     "bg-danger": Number(props.priority) === 1,
                     "bg-warning": Number(props.priority) === 2
                 })}></div>
-                <div className="col-6 p-1 text-center text-light">Rozwiązane</div>
+                <div className="col-6 p-1 text-center text-dark">Rozwiązane</div>
                 <TableRow first_col={"id"} second_col={<span className="smaller-text">{props._id}</span>} />
                 <TableRow first_col={"Kategoria"} second_col={props.categoryName} />
                 <TableRow first_col={"Opis"} second_col={props.what} />

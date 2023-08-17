@@ -20,7 +20,7 @@ const SolvedProblem: React.FC<IProblem> = (props) => {
         <article className="col-md-6 col-lg-4" onDoubleClickCapture={handleDoubleClick}>
                 <div className="border">
                     <div className="row gx-1 text-dark">
-                        <div className={classNames("col-12 text-center text-weight-1 p-1", {
+                        <div className={classNames("col-12 text-center p-1", {
                             "bg-danger text-light": Number(props.priority) === 1,
                             "bg-warning": Number(props.priority) === 2
                         })}>ROZWIĄZANE</div>

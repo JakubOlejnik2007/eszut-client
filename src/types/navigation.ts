@@ -12,5 +12,5 @@ export interface IGroupedNavigation {
     name: string,
     isMenu: boolean,
     isPrivate: boolean,
-    navs: TNavigation[]
+    navs: INavigation[]
 }

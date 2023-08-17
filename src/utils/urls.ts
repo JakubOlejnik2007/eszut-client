@@ -32,6 +32,10 @@ const urls = {
         },
         push: {
             subscribe: "/subscribe"
+        },
+        user: {
+            changeEmail: "/change-email",
+            changePassword: "/change-password"
         }
     },
 };
