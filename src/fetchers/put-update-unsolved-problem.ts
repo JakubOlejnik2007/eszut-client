@@ -4,7 +4,7 @@ import urls from "../utils/urls";
 
 const putUpdateUnsolvedProblem = async (AuthToken: string, priority: string, CategoryID: string, ProblemID: string) => {
     const response = await axios.put(
-        `http://${config.backend}${urls.backend.problem.updateProblem}`,
+        `${config.backend}${urls.backend.problem.updateProblem}`,
         {
             ProblemID: ProblemID,
             priority: priority,

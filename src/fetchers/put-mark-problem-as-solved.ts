@@ -4,7 +4,7 @@ import urls from "../utils/urls";
 
 const putMarkProblemAsSolved = async (AuthToken: string, ProblemID: string, AdministratorID: string) => {
     const response = await axios.put(
-        `http://${config.backend}${urls.backend.problem.markProblemAsSolved}`,
+        `${config.backend}${urls.backend.problem.markProblemAsSolved}`,
         {
             ProblemID: ProblemID,
             AdministratorID: AdministratorID

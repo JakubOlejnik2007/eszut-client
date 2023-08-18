@@ -4,7 +4,7 @@ import urls from "../utils/urls";
 
 const putTakeOnProblem = async (AuthToken: string, AdministratorID: string, ProblemID: string) => {
     const response = await axios.put(
-        `http://${config.backend}${urls.backend.problem.takeOnProblem}`,
+        `${config.backend}${urls.backend.problem.takeOnProblem}`,
         {
             ProblemID: ProblemID,
             AdministratorID: AdministratorID

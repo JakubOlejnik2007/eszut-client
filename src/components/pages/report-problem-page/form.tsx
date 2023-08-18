@@ -137,7 +137,7 @@ const ReportProblemForm = () => {
     else {
       const response = await callLoadingWithPromise(
         "Dodawanie zgłoszenia...",
-        axios.post(`http://${config.backend}${urls.backend.problem.insertProblem}`, data),
+        axios.post(`${config.backend}${urls.backend.problem.insertProblem}`, data),
         "Udało się dodać zgłoszenie!",
         "Nie udało się dodać zgłoszenia!"
       );

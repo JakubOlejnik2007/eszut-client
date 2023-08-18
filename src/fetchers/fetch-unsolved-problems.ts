@@ -4,7 +4,7 @@ import urls from "../utils/urls";
 
 const fetchUnsolvedProblems = async (AuthToken: string) => {
   const response = await axios.get(
-    `http://${config.backend}${urls.backend.problem.getUnsolvedProblems}`, {
+    `${config.backend}${urls.backend.problem.getUnsolvedProblems}`, {
         headers: {
             Authorization: `Bearer ${AuthToken}`
         }

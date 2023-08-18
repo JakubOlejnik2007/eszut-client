@@ -2,34 +2,48 @@ import { config } from "../config";
 import urls from "../urls";
 
 export const register = async () => {
-    const publicVapidKey = config.public_vapid;
     let counter = 0;
     const interval = setInterval(async () => {
-        if ("serviceWorker" in navigator) {
-            const registration = await navigator.serviceWorker.register("/worker.js", {
-                scope: "/",
-            });
-            await navigator.serviceWorker.ready;
-            await send(registration, publicVapidKey).catch((err) => console.error(err));
-            counter++;
-            if (counter === 3) clearInterval(interval);
+        if(counter >= 3) clearInterval(interval);
+        try {
+            if ("serviceWorker" in navigator) {
+                const registration = await navigator.serviceWorker.register("/worker.js", {
+                    scope: "/",
+                });
+                console.log("Service Worker zarejestrowany zasięgiem:", registration.scope);
+
+                if (registration.active) {
+                    const subscription = await registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: urlBase64ToUint8Array(config.public_vapid),
+                    });
+                    await sendSubscriptionToServer(subscription);
+                }
+            } else {
+                console.log("Twoja przeglądarka nie obsługuje Service Workerów.");
+            }
+        } catch (error) {
+            console.error("Błąd podczas rejestracji Service Workera:", error);
         }
-    }, 1500);
+        counter++;
+    }, 1000);
 };
 
-async function send(registration: ServiceWorkerRegistration, publicVapidKey: string) {
-    const subscription = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
-    });
-    await fetch(`http://${config.backend}${urls.backend.push.subscribe}`, {
-        method: "POST",
-        body: JSON.stringify(subscription),
-        headers: {
-            "content-type": "application/json",
-        },
-    });
+async function sendSubscriptionToServer(subscription: PushSubscription) {
+    try {
+        await fetch(`${config.backend}${urls.backend.push.subscribe}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(subscription),
+        });
+        console.log("Subskrypcja wysłana na serwer.");
+    } catch (error) {
+        console.error("Błąd podczas wysyłania subskrypcji na serwer:", error);
+    }
 }
+
 function urlBase64ToUint8Array(base64String: string) {
     const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
     const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");

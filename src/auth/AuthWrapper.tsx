@@ -36,7 +36,7 @@ export const AuthWrapper = () => {
        try {
          const loadingPromise = callLoadingWithPromise(
            "Trwa logowanie...",
-           axios.post(`http://${config.backend}${urls.backend.auth.login}`, {
+           axios.post(`${config.backend}${urls.backend.auth.login}`, {
              email: email,
              password: password,
            }),
