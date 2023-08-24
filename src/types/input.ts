@@ -1,7 +1,7 @@
-import { TChangeEmailNames, TChangePasswordNames, TLoginFormNames, TReportFormNames } from "./form-inputs-names";
+import { TAddCategoryNames, TAddPlaceNames, TChangeEmailNames, TChangePasswordNames, TLoginFormNames, TReportFormNames } from "./form-inputs-names";
 import { IOption } from "./forms-data";
 
-export interface IFormInput<T extends TReportFormNames | TLoginFormNames | TChangePasswordNames | TChangeEmailNames> {
+export interface IFormInput<T extends TReportFormNames | TLoginFormNames | TChangePasswordNames | TChangeEmailNames | TAddCategoryNames | TAddPlaceNames> {
     id: number;
     name: T;
     type: string;

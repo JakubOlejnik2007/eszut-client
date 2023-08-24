@@ -6,6 +6,7 @@ const urls = {
         problems: "/zgloszenia",
         archive: "/archiwum",
         account: "/konto",
+        manageapp: "/zarzadzanie-aplikacja"
     },
     backend: {
         auth: {
@@ -29,6 +30,8 @@ const urls = {
         forms: {
             getCategories: "/get-categories",
             getPlaces: "/get-places",
+            insertNewCategory: "/insert-category",
+            insertNewPlace: "/insert-place"
         },
         push: {
             subscribe: "/subscribe"

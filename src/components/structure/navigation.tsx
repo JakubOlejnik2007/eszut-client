@@ -1,11 +1,12 @@
 import { IGroupedNavigation, INavigation } from "../../types/navigation";
 import { About } from "../pages/about";
-import { Account } from "../pages/account/account";
+import Account from "../pages/account/account";
 import ReportProblem from "../pages/report-problem-page/report-problem";
 import urls from "../../utils/urls";
 import Login from "../pages/login/login";
 import ShowUnsolvedProblems from "../pages/show-unsolved-problems/show-unsolved-problems";
 import ArchiveOfProblems from "../pages/show-solved-problem/archive-of-problems";
+import { ManageApplication } from "../pages/manage-application/manage-app-page";
 
 export const nav: (INavigation | IGroupedNavigation)[] = [
   {
@@ -41,6 +42,7 @@ export const nav: (INavigation | IGroupedNavigation)[] = [
         isMenu: true,
         isPrivate: true,
       },
+      { id:"4.4", path: urls.client.manageapp, name: "Zarządzanie", element: <ManageApplication />, isMenu: true, isPrivate: true}
     ],
   },
 ];

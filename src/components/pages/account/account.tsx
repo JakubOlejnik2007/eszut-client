@@ -3,7 +3,7 @@ import { AuthData } from "../../../auth/AuthWrapper"
 import ChangePassword from "./changePassword";
 import ChangeEmail from "./changeEmail";
 
-export const Account = () => {
+const Account = () => {
 
      const { user } = AuthData();
 
@@ -28,3 +28,5 @@ export const Account = () => {
           </>
      )
 }
+
+export default Account;
