@@ -14,10 +14,7 @@ import axios from "axios";
 import { IProblemForm } from "../../../types/problem";
 import { config } from "../../../utils/config";
 import mapOptions from "../../../utils/map-form-options";
-import { useNavigate } from "react-router-dom";
-
 const ReportProblemForm = () => {
-  const navigate = useNavigate();
 
 
 
@@ -44,7 +41,7 @@ const ReportProblemForm = () => {
         "Błąd połączenia z siecią. Proszę zaczekać chwilę i odświeżyć stronę."
       );
     }
-  }, [navigate, query1.error, query1.isError, query2.error, query2.isError]);
+  }, [query1.error, query1.isError, query2.error, query2.isError]);
 
   
 

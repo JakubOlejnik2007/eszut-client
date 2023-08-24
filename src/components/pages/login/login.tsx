@@ -55,6 +55,7 @@ const Login = () => {
                let response = await login(String(data.email), String(data.password))
                if(!response) return;
                navigate(urls.client.problems)
+               console.log("Redirect from handleSubmit in login.tsx")
           }
      }
 
