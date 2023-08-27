@@ -1,4 +1,5 @@
 import ManageCategories from "./manage-categories"
+import ManagePlaces from "./manage-places"
 
 export const ManageApplication = () => {
      return (
@@ -11,7 +12,7 @@ export const ManageApplication = () => {
                         <ManageCategories />
                     </article>
                     <article className="col-md-6">
-                        <ManageCategories />
+                        <ManagePlaces />
                     </article>
                </section>
           </>

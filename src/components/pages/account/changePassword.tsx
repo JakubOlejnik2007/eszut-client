@@ -4,7 +4,7 @@ import { TChangePasswordNames } from "../../../types/form-inputs-names"
 import { IFormInputControl } from "../../../types/input"
 import { callError, callSuccess } from "../../../utils/toast-notifications/toast"
 import FormInput from "../../partials/form-input"
-import { useState } from "react"
+import { FormEvent, useState } from "react"
 import ConfirmationModal from "../../partials/confirm-modal"
 import { putChangePassword } from "../../../fetchers/apiRequestFunctions"
 
@@ -57,6 +57,7 @@ const ChangePassword = ({ userAuthToken, UserID }: { userAuthToken: string, User
     const resetFormData = () => {
         setChangePasswordValues((prevState: IChangePasswordValues) => {
             return {
+                ...prevState,
                 oldPassword: "",
                 newPassword: "",
                 confirmNewPassword: ""
@@ -64,7 +65,7 @@ const ChangePassword = ({ userAuthToken, UserID }: { userAuthToken: string, User
         })
     }
 
-    const handleOnSubmitChangePassword = (e: React.ChangeEvent<HTMLFormElement>) => {
+    const handleOnSubmitChangePassword = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!changePasswordValues.oldPassword || !changePasswordValues.newPassword || !changePasswordValues.confirmNewPassword) {
             callError("Brak danych."); return;

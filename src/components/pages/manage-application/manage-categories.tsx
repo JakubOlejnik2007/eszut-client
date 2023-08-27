@@ -1,26 +1,33 @@
 import { useQuery } from "react-query";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Alert, Button, Form, ListGroup } from "react-bootstrap";
-import { callError } from "../../../utils/toast-notifications/toast";
+import { callError, callSuccess } from "../../../utils/toast-notifications/toast";
 import { ICategory } from "../../../types/forms-data";
 import FormInput from "../../partials/form-input";
 import { IFormInputControl } from "../../../types/input";
-import { TAddCategoryNames } from "../../../types/form-inputs-names";
-import { getCategories } from "../../../fetchers/apiRequestFunctions";
-
-interface IAddCategoryValues { newCategoryName: string };
+import { TInsertCategoryNames } from "../../../types/form-inputs-names";
+import { deleteCategory, getCategories, insertNewCategory } from "../../../fetchers/apiRequestFunctions";
+import { AuthData } from "../../../auth/AuthWrapper";
+import "../../../styles/list-container.css"
+interface IInsertCategoryValues { newCategoryName: string };
 
 const ManageCategories = () => {
 
-    const [addCategoryValues, setAdddCategoryValues] = useState<IAddCategoryValues>({newCategoryName: ""})
+    const { user } = AuthData();
+
+    const [insertCategoryValues, setInsertCategoryValues] = useState<IInsertCategoryValues>({ newCategoryName: "" })
 
     const getCategoriesQuery = useQuery("categories", getCategories, { staleTime: 60000 });
 
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setAdddCategoryValues((prevState: IAddCategoryValues) => {
-            return { ...prevState, [e.target.name]: e.target.value }
-        })
-    }
+    const insertNewCategoryFormControls: IFormInputControl<TInsertCategoryNames>[] = [
+        {
+            id: 1,
+            name: "newCategoryName",
+            type: "text",
+            placeholder: "Nazwa nowej kategorii...",
+            label: "Nazwa nowej kategorii:"
+        }
+    ]
 
     useEffect(() => {
         if (
@@ -32,16 +39,6 @@ const ManageCategories = () => {
         }
     }, [getCategoriesQuery.isError]);
 
-    const addNewCategoryFormControls: IFormInputControl<TAddCategoryNames>[] = [
-        {
-            id: 1,
-            name: "newCategoryName",
-            type: "text",
-            placeholder: "Nazwa nowej kategorii...",
-            label: "Nazwa nowej kategorii:"
-        }
-    ]
-
     if (getCategoriesQuery.isError) return (
         <Alert variant="danger" className="text-center">Błąd podczas pobierania danych z serwera. Proszę zaczekać i odświeżyć stronę! <br /> Formularz nie został wyrenderowany.</Alert>
     )
@@ -52,26 +49,64 @@ const ManageCategories = () => {
         </div>
     );
 
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInsertCategoryValues((prevState: IInsertCategoryValues) => {
+            return { ...prevState, [e.target.name]: e.target.value }
+        })
+    }
+
+    const handleResetFormData = () => {
+        setInsertCategoryValues((prevState: IInsertCategoryValues) => {
+            return { ...prevState, newCategoryName: "" }
+        })
+    }
+
+    const handleOnInsertCategoryFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        try {
+            await insertNewCategory(user.AuthToken, insertCategoryValues.newCategoryName)
+            handleResetFormData();
+            callSuccess("Dodano nową kategorię!")
+            getCategoriesQuery.refetch();
+        } catch {
+            callError("Błąd podczas dodawania kategorii!");
+        }
+    }
+
+    const handleDeleteCategory = async (CategoryID: string) => {
+        console.log("Used")
+        try {
+            await deleteCategory(user.AuthToken, CategoryID);
+            callSuccess("Usunięto kategorię!");
+            getCategoriesQuery.refetch();
+        } catch (error) {
+            console.log(error)
+            callError("Błąd podczas usuwania kategorii.")
+        }
+    }
+
     return (
         <>
             <h2>Zarządzanie kategoriami</h2>
             <p className="text-justify">Możesz dodać lub usunąć kategorię, pod warunkiem, że aktualnie nie jest ona przypisana do jakiegokolwiek zgłoszenia w bazie danych.</p>
             <ListGroup>
+            <div className="list-container">
                 {
                     getCategoriesQuery.data.map((element: ICategory) => {
-                        return <ListGroup.Item>{element.name}
-                            <Button variant="danger" className="float-end">
+                        return <ListGroup.Item key={Math.random()} className="d-flex justify-content-between">{element.name}
+                            <Button variant="danger" onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleDeleteCategory(element._id)}>
                                 <i className="bi bi-x-circle"></i>
                             </Button></ListGroup.Item>
                     })
                 }
+                </div>
                 <ListGroup.Item>
-                    <Form>
+                    <Form onSubmit={handleOnInsertCategoryFormSubmit}>
                         <div>
-                            {addNewCategoryFormControls.map(input => {
-                                return <FormInput key={input.id} {...input} value={addCategoryValues[input.name]} onChange={handleOnChange} />
+                            {insertNewCategoryFormControls.map(input => {
+                                return <FormInput key={input.id} {...input} value={insertCategoryValues[input.name]} onChange={handleOnChange} />
                             })}
-                            <Button variant="primary" type="submit">Zatwierdź zmianę adresu email</Button>
+                            <Button variant="primary" type="submit">Dodaj kategorię</Button>
                         </div>
                     </Form>
                 </ListGroup.Item>

@@ -17,6 +17,7 @@ export const register = async () => {
                         userVisibleOnly: true,
                         applicationServerKey: urlBase64ToUint8Array(config.public_vapid),
                     });
+                    console.log(subscription.expirationTime)
                     await sendSubscriptionToServer(subscription);
                 }
             } else {

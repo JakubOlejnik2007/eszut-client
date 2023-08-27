@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { TChangeEmailNames } from "../../../types/form-inputs-names";
@@ -42,10 +42,10 @@ const ChangeEmail = ({ userEmail, userAuthToken, UserID }: { userEmail: string, 
     }
 
     const resetFormData = () => {
-        setChangeEmailValues((prevState: IChangeEmailsValues) => { return { newEmail: "" } })
+        setChangeEmailValues((prevState: IChangeEmailsValues) => { return { ...prevState, newEmail: "" } })
     }
 
-    const handleOnSubmitChangeEmail = (e: React.ChangeEvent<HTMLFormElement>) => {
+    const handleOnSubmitChangeEmail = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!changeEmailValues.newEmail) {
             callError("Brak danych");

@@ -1,10 +1,10 @@
 export interface IPlace {
-    _id: number,
+    _id: string,
     name: string
 }
 
 export interface ICategory {
-    _id: number,
+    _id: string,
     name: string
 }
 
