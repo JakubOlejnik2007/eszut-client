@@ -4,3 +4,9 @@ export type TChangePasswordNames = "oldPassword" | "newPassword" | "confirmNewPa
 export type TChangeEmailNames = "newEmail";
 export type TAddCategoryNames = "newCategoryName";
 export type TAddPlaceNames = "newPlaceName";
+export type TChangeCategory = "category";
+export type TChangePlace = "place";
+
+
+type TFormNames = TReportFormNames | TLoginFormNames | TChangePasswordNames | TChangeEmailNames | TAddCategoryNames | TAddPlaceNames | TChangeCategory | TChangePlace;
+export default TFormNames;

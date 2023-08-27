@@ -7,14 +7,12 @@ import TableRow from "../../../partials/table-row";
 import classNames from "classnames";
 import { EditCategory, EditPriority } from "./unsolved-problem-modal-partials";
 import { IValuesToEdit } from "../../../../types/states";
-import putUpdateUnsolvedProblem from "../../../../fetchers/put-update-unsolved-problem";
 import { callError, callSuccess } from "../../../../utils/toast-notifications/toast";
 import { Refresh } from "../display-problems";
-import putTakeOnProblem from "../../../../fetchers/put-take-on-problem";
-import putRejectProblem from "../../../../fetchers/put-reject-problem";
-import putMarkProblemAsSolved from "../../../../fetchers/put-mark-problem-as-solved";
+
 import ConfirmationModal from "../../../partials/confirm-modal";
 import { IOnConfirmActionsForUnsolvedProblems, TOnConfirmActionsForUnsolvedProblems } from "../../../../types/confirm-modal";
+import { putMarkProblemAsSolved, putRejectProblem, putTakeOnProblem, putUpdateUnsolvedProblem } from "../../../../fetchers/apiRequestFunctions";
 
 const UnsolvedProblemModal: React.FC<IProblem & {
 	show: boolean;

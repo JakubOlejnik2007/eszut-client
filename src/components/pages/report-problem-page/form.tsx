@@ -4,9 +4,7 @@ import { TReportFormNames } from "../../../types/form-inputs-names";
 import FormInput from "../../partials/form-input";
 import { useState, useEffect, FormEvent } from "react";
 import { useQuery } from "react-query";
-import fetchCategories from "../../../fetchers/fetch-categories";
-import fetchPlaces from "../../../fetchers/fetch-places";
-import { IFormInput } from "../../../types/input";
+import { IFormInputControl } from "../../../types/input";
 import { callError, callLoadingWithPromise, callSuccess } from "../../../utils/toast-notifications/toast";
 import { Alert } from "react-bootstrap";
 import urls from "../../../utils/urls";
@@ -14,15 +12,22 @@ import axios from "axios";
 import { IProblemForm } from "../../../types/problem";
 import { config } from "../../../utils/config";
 import mapOptions from "../../../utils/map-form-options";
+import { getCategories, getPlaces } from "../../../fetchers/apiRequestFunctions";
+
+interface IFormValues {
+  who: string,
+  PlaceID: string,
+  what: string,
+  CategoryID: string,
+  priority: number
+}
+
 const ReportProblemForm = () => {
 
+  const categoriesQuery = useQuery("categories", getCategories, { staleTime: 60000 });
+  const placesQuery = useQuery("places", getPlaces, { staleTime: 60000 });
 
-
-
-
-  const query1 = useQuery("categories", fetchCategories, { staleTime: 60000 });
-  const query2 = useQuery("places", fetchPlaces, { staleTime: 60000 });
-  const [formValues, setFormValues] = useState({
+  const [formValues, setFormValues] = useState<IFormValues>({
     who: "",
     PlaceID: "",
     what: "",
@@ -34,21 +39,21 @@ const ReportProblemForm = () => {
 
   useEffect(() => {
     if (
-      (query1.isError) ||
-      (query2.isError)
+      (categoriesQuery.isError) ||
+      (placesQuery.isError)
     ) {
       callError(
         "Błąd połączenia z siecią. Proszę zaczekać chwilę i odświeżyć stronę."
       );
     }
-  }, [query1.error, query1.isError, query2.error, query2.isError]);
+  }, [categoriesQuery.error, categoriesQuery.isError, placesQuery.error, placesQuery.isError]);
 
-  
 
-  if (query1.isError || query2.isError) return (
+
+  if (categoriesQuery.isError || placesQuery.isError) return (
     <Alert variant="danger" className="text-center">Błąd podczas pobierania danych z serwera. Proszę zaczekać i odświeżyć stronę! <br /> Formularz nie został wyrenderowany.</Alert>
   )
-  if (query1.isLoading || query2.isLoading) return (
+  if (categoriesQuery.isLoading || placesQuery.isLoading) return (
     <div className="h-100 d-flex align-items-center justify-content-center">
       <div className="spinner-border" role="status">
       </div>
@@ -71,9 +76,9 @@ const ReportProblemForm = () => {
     });
   };
 
-  const categories = query1.data
-  const places = query2.data
-  const inputs: IFormInput<TReportFormNames>[] = [
+  const categories = categoriesQuery.data
+  const places = placesQuery.data
+  const inputs: IFormInputControl<TReportFormNames>[] = [
     {
       id: 1,
       name: "who",

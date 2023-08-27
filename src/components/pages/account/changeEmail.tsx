@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { TChangeEmailNames } from "../../../types/form-inputs-names";
-import { IFormInput } from "../../../types/input";
+import { IFormInputControl } from "../../../types/input";
 import FormInput from "../../partials/form-input";
 import { callError, callSuccess } from "../../../utils/toast-notifications/toast";
 import ConfirmationModal from "../../partials/confirm-modal";
-import putChangeEmail from "../../../fetchers/put-change-email";
 import { AuthData } from "../../../auth/AuthWrapper";
+import { putChangeEmail } from "../../../fetchers/apiRequestFunctions";
 
 interface IChangeEmailsValues { newEmail: string };
 
@@ -21,7 +21,7 @@ const ChangeEmail = ({ userEmail, userAuthToken, UserID }: { userEmail: string, 
         newEmail: ""
     })
 
-    const changeEmailFormControls: IFormInput<TChangeEmailNames>[] = [
+    const changeEmailFormControls: IFormInputControl<TChangeEmailNames>[] = [
         {
             id: 4,
             name: "newEmail",

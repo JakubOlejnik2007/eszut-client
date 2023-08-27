@@ -1,7 +1,8 @@
 import Form from "react-bootstrap/Form";
-import { IFormInput } from "../../types/input";
+import { IFormInputComponentProps } from "../../types/input";
+import TFormNames from "../../types/form-inputs-names";
 
-const FormInput: React.FC<IFormInput<any>> = (props) => {
+const FormInput: React.FC<IFormInputComponentProps<TFormNames>> = (props) => {
   const { label, onChange, id, type, options, ...inputProps } = props;
 
   let controlProps: any = {

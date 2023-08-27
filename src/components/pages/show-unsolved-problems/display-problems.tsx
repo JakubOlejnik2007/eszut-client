@@ -2,10 +2,10 @@ import { useState, useEffect, createContext, useContext } from "react";
 import { Alert } from "react-bootstrap";
 import { useQuery } from "react-query";
 import { AuthData } from "../../../auth/AuthWrapper";
-import fetchUnsolvedProblems from "../../../fetchers/fetch-unsolved-problems";
 import IProblem from "../../../types/problem";
 import { callError } from "../../../utils/toast-notifications/toast";
 import UnsolvedProblem from "./unsolved-problem";
+import { getUnsolvedProblems } from "../../../fetchers/apiRequestFunctions";
 
 const RefreshContext = createContext<{ refreshPage: () => void }>({ refreshPage: () => { } })
 
@@ -19,7 +19,7 @@ const DisplayUnsolvedProblems = () => {
     const [underRealization, setUnderRealization] = useState<IProblem[]>([]);
     const [other, setOther] = useState<IProblem[]>([]);
     const problemsQuery = useQuery("unsolved-problems", () =>
-        fetchUnsolvedProblems(user.AuthToken)
+        getUnsolvedProblems(user.AuthToken)
         , { staleTime: 60000, enabled: !!user.AuthToken });
 
     const refreshPage = () => {

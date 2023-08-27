@@ -4,13 +4,18 @@ import { useNavigate} from "react-router-dom";
 import { AuthData } from "../../../auth/AuthWrapper";
 import urls from "../../../utils/urls";
 import FormInput from "../../partials/form-input";
-import { IFormInput } from "../../../types/input";
+import { IFormInputControl } from "../../../types/input";
 import { TLoginFormNames } from "../../../types/form-inputs-names";
 import { callError } from "../../../utils/toast-notifications/toast";
 
+interface ILoginFormValues {
+     email: string,
+     password: string
+}
+
 const Login = () => {
 
-     const [values, setValues] = useState({
+     const [values, setValues] = useState<ILoginFormValues>({
           email: "",
           password: "",
      });
@@ -19,7 +24,7 @@ const Login = () => {
 
      const navigate = useNavigate();
 
-     const inputs: IFormInput<TLoginFormNames>[] = [
+     const inputs: IFormInputControl<TLoginFormNames>[] = [
           {
                id: 1,
                name: "email",

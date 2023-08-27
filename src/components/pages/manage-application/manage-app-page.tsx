@@ -8,7 +8,6 @@ export const ManageApplication = () => {
                <section className="my-4 row g-3 p-2">
                     
                     <article className="col-md-6">
-                        
                         <ManageCategories />
                     </article>
                     <article className="col-md-6">

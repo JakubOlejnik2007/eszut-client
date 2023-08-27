@@ -1,7 +1,8 @@
-import { TAddCategoryNames, TAddPlaceNames, TChangeEmailNames, TChangePasswordNames, TLoginFormNames, TReportFormNames } from "./form-inputs-names";
+import TFormNames from "./form-inputs-names";
 import { IOption } from "./forms-data";
 
-export interface IFormInput<T extends TReportFormNames | TLoginFormNames | TChangePasswordNames | TChangeEmailNames | TAddCategoryNames | TAddPlaceNames> {
+
+export interface IFormInputControl<T extends TFormNames> {
     id: number;
     name: T;
     type: string;
@@ -10,6 +11,10 @@ export interface IFormInput<T extends TReportFormNames | TLoginFormNames | TChan
     value?: any;
     max?: number | undefined;
     min?: number | undefined;
-    onChange?: ((e: any) => void) | undefined;
+
     options?: IOption[];
   };
+
+  export interface IFormInputComponentProps<T extends TFormNames> extends IFormInputControl<T> {
+    onChange: ((e: any) => void);
+  }

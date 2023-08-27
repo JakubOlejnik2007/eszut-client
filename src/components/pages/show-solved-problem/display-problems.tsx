@@ -2,10 +2,10 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { Alert, Pagination } from "react-bootstrap";
 import { useQuery } from "react-query";
 import { AuthData } from "../../../auth/AuthWrapper";
-import fetchSolvedProblems from "../../../fetchers/fetch-solved-problems";
 import IProblem from "../../../types/problem";
 import { callError } from "../../../utils/toast-notifications/toast";
 import SolvedProblem from "./solved-problem";
+import { getSolvedProblems } from "../../../fetchers/apiRequestFunctions";
 
 const RefreshContext = createContext<{ refreshPage: () => void }>({ refreshPage: () => { } })
 
@@ -32,7 +32,7 @@ const DisplaySolvedProblems = () => {
     const { user } = AuthData();
 
     const problemsQuery = useQuery(['data', page], () =>
-        fetchSolvedProblems(user.AuthToken, page)
+        getSolvedProblems(user.AuthToken, page)
         , { staleTime: 60000, enabled: !!user.AuthToken });
 
 

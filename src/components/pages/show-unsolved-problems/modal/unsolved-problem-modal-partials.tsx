@@ -1,12 +1,12 @@
 import { Dispatch, SetStateAction, useEffect } from "react"
 import { IValuesToEdit } from "../../../../types/states"
 import FormInput from "../../../partials/form-input"
-import fetchCategories from "../../../../fetchers/fetch-categories"
 import { useQuery } from "react-query"
 import { callError } from "../../../../utils/toast-notifications/toast"
 import { Alert } from "react-bootstrap"
 import mapOptions from "../../../../utils/map-form-options"
 import { ICategory } from "../../../../types/forms-data"
+import { getCategories } from "../../../../fetchers/apiRequestFunctions"
 
 export const EditPriority: React.FC<{
     state: IValuesToEdit,
@@ -32,7 +32,7 @@ export const EditCategory: React.FC<{
     setState: Dispatch<SetStateAction<IValuesToEdit>>
 }> = ({ state, setState }) => {
 
-    const categoryQuery = useQuery("categories", fetchCategories, { staleTime: 60000 });
+    const categoryQuery = useQuery("categories", getCategories, { staleTime: 60000 });
 
     useEffect(() => {
         if (

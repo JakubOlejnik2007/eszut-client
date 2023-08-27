@@ -1,12 +1,12 @@
 import { Button } from "react-bootstrap"
 import { Form } from "react-bootstrap"
 import { TChangePasswordNames } from "../../../types/form-inputs-names"
-import { IFormInput } from "../../../types/input"
+import { IFormInputControl } from "../../../types/input"
 import { callError, callSuccess } from "../../../utils/toast-notifications/toast"
 import FormInput from "../../partials/form-input"
 import { useState } from "react"
 import ConfirmationModal from "../../partials/confirm-modal"
-import putChangePassword from "../../../fetchers/put-change-password"
+import { putChangePassword } from "../../../fetchers/apiRequestFunctions"
 
 interface IChangePasswordValues { oldPassword: string; newPassword: string; confirmNewPassword: string }
 
@@ -20,7 +20,7 @@ const ChangePassword = ({ userAuthToken, UserID }: { userAuthToken: string, User
         confirmNewPassword: ""
     })
 
-    const changePasswordFormControls: IFormInput<TChangePasswordNames>[] = [
+    const changePasswordFormControls: IFormInputControl<TChangePasswordNames>[] = [
         {
             id: 1,
             name: "oldPassword",

@@ -1,12 +1,12 @@
 import { useQuery } from "react-query";
-import fetchCategories from "../../../fetchers/fetch-categories";
 import { useEffect, useState } from "react";
 import { Alert, Button, Form, ListGroup } from "react-bootstrap";
 import { callError } from "../../../utils/toast-notifications/toast";
 import { ICategory } from "../../../types/forms-data";
 import FormInput from "../../partials/form-input";
-import { IFormInput } from "../../../types/input";
+import { IFormInputControl } from "../../../types/input";
 import { TAddCategoryNames } from "../../../types/form-inputs-names";
+import { getCategories } from "../../../fetchers/apiRequestFunctions";
 
 interface IAddCategoryValues { newCategoryName: string };
 
@@ -14,7 +14,7 @@ const ManageCategories = () => {
 
     const [addCategoryValues, setAdddCategoryValues] = useState<IAddCategoryValues>({newCategoryName: ""})
 
-    const getCategoriesQuery = useQuery("categories", fetchCategories, { staleTime: 60000 });
+    const getCategoriesQuery = useQuery("categories", getCategories, { staleTime: 60000 });
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAdddCategoryValues((prevState: IAddCategoryValues) => {
@@ -32,7 +32,7 @@ const ManageCategories = () => {
         }
     }, [getCategoriesQuery.isError]);
 
-    const changeEmailFormControls: IFormInput<TAddCategoryNames>[] = [
+    const addNewCategoryFormControls: IFormInputControl<TAddCategoryNames>[] = [
         {
             id: 1,
             name: "newCategoryName",
@@ -68,7 +68,7 @@ const ManageCategories = () => {
                 <ListGroup.Item>
                     <Form>
                         <div>
-                            {changeEmailFormControls.map(input => {
+                            {addNewCategoryFormControls.map(input => {
                                 return <FormInput key={input.id} {...input} value={addCategoryValues[input.name]} onChange={handleOnChange} />
                             })}
                             <Button variant="primary" type="submit">Zatwierdź zmianę adresu email</Button>
