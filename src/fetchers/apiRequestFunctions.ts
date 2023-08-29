@@ -98,3 +98,9 @@ export const putChangeEmail = async (AuthToken: string, newEmail: string, Admini
 
 export const login = async (email: string, password: string) =>
     await createApiRequest("POST", `${config.backend}${urls.backend.auth.login}`, { email, password });
+
+export const addNewAdministrator = async (AuthToken: string, name: string, email: string, password: string) => await createApiRequest("POST", `${config.backend}${urls.backend.user.addNewAdministrator}`, {name, password, email}, AuthToken);
+
+export const getAdmins = async (AuthToken: string) => await createApiRequest("GET", `${config.backend}${urls.backend.user.getAdmins}`, {}, AuthToken);
+
+export const deleteAdministrator = async (AuthToken: string, AdministratorID: string) => await createApiRequest("DELETE", `${config.backend}${urls.backend.user.deleteAdministrator}`, {}, AuthToken)

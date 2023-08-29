@@ -1,11 +1,11 @@
 import { IGroupedNavigation, INavigation } from "../../types/navigation";
 import { About } from "../pages/about";
 import Account from "../pages/account/account";
-import ReportProblem from "../pages/report-problem-page/report-problem";
+import ReportProblem from "../pages/report-problem/report-problem";
 import urls from "../../utils/urls";
 import Login from "../pages/login/login";
 import ShowUnsolvedProblems from "../pages/show-unsolved-problems/show-unsolved-problems";
-import ArchiveOfProblems from "../pages/show-solved-problem/archive-of-problems";
+import ArchiveOfProblems from "../pages/show-solved-problems/archive-of-problems";
 import { ManageApplication } from "../pages/manage-application/manage-app-page";
 
 export const nav: (INavigation | IGroupedNavigation)[] = [

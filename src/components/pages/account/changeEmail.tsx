@@ -8,6 +8,7 @@ import { callError, callSuccess } from "../../../utils/toast-notifications/toast
 import ConfirmationModal from "../../partials/confirm-modal";
 import { AuthData } from "../../../auth/AuthWrapper";
 import { putChangeEmail } from "../../../fetchers/apiRequestFunctions";
+import { validateEmail } from "../../../utils/validators";
 
 interface IChangeEmailsValues { newEmail: string };
 
@@ -55,6 +56,10 @@ const ChangeEmail = ({ userEmail, userAuthToken, UserID }: { userEmail: string, 
         if (changeEmailValues.newEmail === userEmail) {
             callError("Nowy adres email nie może być taki sam jak poprzedni");
             return;
+        }
+
+        if(!validateEmail(changeEmailValues.newEmail)){
+            callError("Nowa adres nie spełnia wymogów")
         }
 
         setShowConfirmationModal(true);

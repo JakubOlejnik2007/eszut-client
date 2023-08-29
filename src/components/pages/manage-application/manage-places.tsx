@@ -87,32 +87,32 @@ const ManagePlaces = () => {
 
 
     return (
-        <>
+        <article>
             <h2>Zarządzanie miejscami</h2>
             <p className="text-justify">Możesz dodać lub usunąć miejsce, pod warunkiem, że aktualnie nie jest ono przypisane do jakiegokolwiek zgłoszenia w bazie danych.</p>
             <ListGroup>
                 <div className="list-container">
-                {
-                    getPlacesQuery.data.map((element: ICategory) => {
-                        return <ListGroup.Item key={Math.random()} className="d-flex justify-content-between">{element.name}
-                            <Button variant="danger" onClick={() => handleDeletePlace(element._id)}>
-                                <i className="bi bi-x-circle"></i>
-                            </Button></ListGroup.Item>
-                    })
-                }
+                    {
+                        getPlacesQuery.data.map((element: ICategory) => {
+                            return <ListGroup.Item key={Math.random()} className="d-flex justify-content-between">{element.name}
+                                <Button variant="danger" onClick={() => handleDeletePlace(element._id)}>
+                                    <i className="bi bi-x-circle"></i>
+                                </Button></ListGroup.Item>
+                        })
+                    }
                 </div>
                 <ListGroup.Item>
                     <Form onSubmit={handleOnInsertPlaceFormSubmit}>
-                        <div>
-                            {insertNewCategoryFormControls.map(input => {
-                                return <FormInput key={input.id} {...input} value={insertPlaceValues[input.name]} onChange={handleOnChange} />
-                            })}
-                            <Button variant="primary" type="submit">Dodaj miejsce</Button>
-                        </div>
+
+                        {insertNewCategoryFormControls.map(input => {
+                            return <FormInput key={input.id} {...input} value={insertPlaceValues[input.name]} onChange={handleOnChange} />
+                        })}
+                        <Button variant="primary" type="submit">Dodaj miejsce</Button>
+
                     </Form>
                 </ListGroup.Item>
             </ListGroup>
-        </>
+        </article>
     )
 }
 

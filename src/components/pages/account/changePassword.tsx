@@ -7,6 +7,7 @@ import FormInput from "../../partials/form-input"
 import { FormEvent, useState } from "react"
 import ConfirmationModal from "../../partials/confirm-modal"
 import { putChangePassword } from "../../../fetchers/apiRequestFunctions"
+import { validatePassword } from "../../../utils/validators"
 
 interface IChangePasswordValues { oldPassword: string; newPassword: string; confirmNewPassword: string }
 
@@ -78,6 +79,11 @@ const ChangePassword = ({ userAuthToken, UserID }: { userAuthToken: string, User
         if (changePasswordValues.oldPassword === changePasswordValues.newPassword) {
             callError("Nowe hasło nie jest inne od starego hasła."); return;
         }
+
+        if(!validatePassword(changePasswordValues.newPassword)){
+            callError("Nowe hasło nie spełnia wymogów!"); return;
+        }
+
         setShowConfirmationModal(true)
 
     }
@@ -95,6 +101,7 @@ const ChangePassword = ({ userAuthToken, UserID }: { userAuthToken: string, User
     return (
         <Form onSubmit={handleOnSubmitChangePassword} className="col-md-6">
             <h3>Zmiana hasła</h3>
+            <p>Hasło powinno być niekrótsze niż osiem znaków, a także zawierać przynajmniej jedną cyfrę, małą literę i wielką literę.</p>
             {changePasswordFormControls.map(input => {
                 return <FormInput key={input.id} {...input} value={changePasswordValues[input.name]} onChange={handleOnChange} />
             })}

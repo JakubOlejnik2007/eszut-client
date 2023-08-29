@@ -1,7 +1,6 @@
 import TFormNames from "./form-inputs-names";
 import { IOption } from "./forms-data";
 
-
 export interface IFormInputControl<T extends TFormNames> {
     id: number;
     name: T;
@@ -13,8 +12,8 @@ export interface IFormInputControl<T extends TFormNames> {
     min?: number | undefined;
 
     options?: IOption[];
-  };
+}
 
-  export interface IFormInputComponentProps<T extends TFormNames> extends IFormInputControl<T> {
-    onChange: ((e: any) => void);
-  }
+export interface IFormInputComponentProps<T extends TFormNames> extends IFormInputControl<T> {
+    onChange: (e: any) => void;
+}

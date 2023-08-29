@@ -1,24 +1,20 @@
+import { useState, useEffect, FormEvent } from "react";
+import { Alert, ListGroup, Button, Form } from "react-bootstrap";
 import { useQuery } from "react-query";
-import { FormEvent, useEffect, useState } from "react";
-import { Alert, Button, Form, ListGroup } from "react-bootstrap";
-import { callError, callSuccess } from "../../../utils/toast-notifications/toast";
-import { ICategory } from "../../../types/forms-data";
-import FormInput from "../../partials/form-input";
-import { IFormInputControl } from "../../../types/input";
-import { TInsertCategoryNames } from "../../../types/form-inputs-names";
-import { deleteCategory, getCategories, insertNewCategory } from "../../../fetchers/apiRequestFunctions";
 import { AuthData } from "../../../auth/AuthWrapper";
-import "../../../styles/list-container.css"
+import { deleteAdministrator, getAdmins, getCategories, insertNewCategory } from "../../../fetchers/apiRequestFunctions";
+import { TInsertCategoryNames } from "../../../types/form-inputs-names";
+import { ICategory } from "../../../types/forms-data";
+import { IFormInputControl } from "../../../types/input";
+import { callError, callSuccess } from "../../../utils/toast-notifications/toast";
+import FormInput from "../../partials/form-input";
 
-interface IInsertCategoryValues { newCategoryName: string };
 
-const ManageCategories = () => {
+const DeleteAdministrator = () => {
 
     const { user } = AuthData();
 
-    const [insertCategoryValues, setInsertCategoryValues] = useState<IInsertCategoryValues>({ newCategoryName: "" })
-
-    const getCategoriesQuery = useQuery("categories", getCategories, { staleTime: 60000 });
+    const getAdminsQuery = useQuery("admins", getAdmins, { staleTime: 60000 });
 
     const insertNewCategoryFormControls: IFormInputControl<TInsertCategoryNames>[] = [
         {
@@ -32,53 +28,29 @@ const ManageCategories = () => {
 
     useEffect(() => {
         if (
-            (getCategoriesQuery.isError)
+            (getAdminsQuery.isError)
         ) {
             callError(
                 "Błąd połączenia z siecią. Proszę zaczekać chwilę i odświeżyć stronę."
             );
         }
-    }, [getCategoriesQuery.isError]);
+    }, [getAdminsQuery.isError]);
 
-    if (getCategoriesQuery.isError) return (
+    if (getAdminsQuery.isError) return (
         <Alert variant="danger" className="text-center">Błąd podczas pobierania danych z serwera. Proszę zaczekać i odświeżyć stronę! <br /> Formularz nie został wyrenderowany.</Alert>
     )
-    if (getCategoriesQuery.isLoading) return (
+    if (getAdminsQuery.isLoading) return (
         <div className="h-100 d-flex align-items-center justify-content-center">
             <div className="spinner-border" role="status">
             </div>
         </div>
     );
 
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInsertCategoryValues((prevState: IInsertCategoryValues) => {
-            return { ...prevState, [e.target.name]: e.target.value }
-        })
-    }
-
-    const handleResetFormData = () => {
-        setInsertCategoryValues((prevState: IInsertCategoryValues) => {
-            return { ...prevState, newCategoryName: "" }
-        })
-    }
-
-    const handleOnInsertCategoryFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleDeleteCategory = async (AdministratorID: string) => {
         try {
-            await insertNewCategory(user.AuthToken, insertCategoryValues.newCategoryName)
-            handleResetFormData();
-            callSuccess("Dodano nową kategorię!")
-            getCategoriesQuery.refetch();
-        } catch {
-            callError("Błąd podczas dodawania kategorii!");
-        }
-    }
-
-    const handleDeleteCategory = async (CategoryID: string) => {
-        try {
-            await deleteCategory(user.AuthToken, CategoryID);
+            await deleteAdministrator(user.AuthToken, AdministratorID);
             callSuccess("Usunięto kategorię!");
-            getCategoriesQuery.refetch();
+            getAdminsQuery.refetch();
         } catch (error) {
             console.log(error)
             callError("Błąd podczas usuwania kategorii.")
@@ -92,7 +64,7 @@ const ManageCategories = () => {
             <ListGroup>
                 <div className="list-container">
                     {
-                        getCategoriesQuery.data.map((element: ICategory) => {
+                        getAdminsQuery.data.map((element: IAdministrator) => {
                             return <ListGroup.Item key={Math.random()} className="d-flex justify-content-between">{element.name}
                                 <Button variant="danger" onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleDeleteCategory(element._id)}>
                                     <i className="bi bi-x-circle"></i>
@@ -115,4 +87,4 @@ const ManageCategories = () => {
     )
 }
 
-export default ManageCategories;
+export default DeleteAdministrator;

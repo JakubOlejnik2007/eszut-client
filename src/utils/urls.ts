@@ -1,3 +1,5 @@
+/** The code defines a constant variable `urls` which is an object containing various URLs categorized
+under `client` and `backend`. */
 const urls = {
     client: {
         mainpage: "/",
@@ -40,9 +42,12 @@ const urls = {
         },
         user: {
             changeEmail: "/change-email",
-            changePassword: "/change-password"
+            changePassword: "/change-password",
+            addNewAdministrator: "/add-new-administrator",
+            deleteAdministrator: "/delete-administrator",
+            getAdmins: "/get-admins"
         }
     },
-};
+} as const;
 
 export default urls;

@@ -1,3 +1,5 @@
+import AddAdministrator from "./add-administrator"
+import DeleteAdministrator from "./delete-administrator"
 import ManageCategories from "./manage-categories"
 import ManagePlaces from "./manage-places"
 
@@ -7,13 +9,18 @@ export const ManageApplication = () => {
                <h1>Zarządzanie aplikacją</h1>
                <p>Korzystając z tego widoku możesz zarządzać aplikacją, tzn. dodać kategorię do listy dostepnej przy zgłaszaniu usterki, dodać miejsce do jakiego mozna przypisać zdarzenie, a także zarządzać administratorami systemu.</p>
                <section className="my-4 row g-3 p-2">
-                    
-                    <article className="col-md-6">
+                    <div className="col-md-6">
                         <ManageCategories />
-                    </article>
-                    <article className="col-md-6">
+                    </div>
+                    <div className="col-md-6">
                         <ManagePlaces />
-                    </article>
+                    </div>
+                    <div className="cal-md-6">
+                         <AddAdministrator />
+                    </div>
+                    <div className="cal-md-6">
+                         <DeleteAdministrator />
+                    </div>
                </section>
           </>
      )
