@@ -4,24 +4,20 @@ import urls from "../urls";
 export const register = async () => {
     let counter = 0;
     const interval = setInterval(async () => {
-        if(counter >= 3) clearInterval(interval);
+        if (counter >= 3) clearInterval(interval);
         try {
             if ("serviceWorker" in navigator) {
                 const registration = await navigator.serviceWorker.register("/worker.js", {
                     scope: "/",
                 });
-                console.log("Service Worker zarejestrowany zasięgiem:", registration.scope);
 
                 if (registration.active) {
                     const subscription = await registration.pushManager.subscribe({
                         userVisibleOnly: true,
                         applicationServerKey: urlBase64ToUint8Array(config.public_vapid),
                     });
-                    console.log(subscription.expirationTime)
                     await sendSubscriptionToServer(subscription);
                 }
-            } else {
-                console.log("Twoja przeglądarka nie obsługuje Service Workerów.");
             }
         } catch (error) {
             console.error("Błąd podczas rejestracji Service Workera:", error);
@@ -39,10 +35,7 @@ async function sendSubscriptionToServer(subscription: PushSubscription) {
             },
             body: JSON.stringify(subscription),
         });
-        console.log("Subskrypcja wysłana na serwer.");
-    } catch (error) {
-        console.error("Błąd podczas wysyłania subskrypcji na serwer:", error);
-    }
+    } catch {}
 }
 
 function urlBase64ToUint8Array(base64String: string) {

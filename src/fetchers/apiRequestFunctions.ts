@@ -103,4 +103,4 @@ export const addNewAdministrator = async (AuthToken: string, name: string, email
 
 export const getAdmins = async (AuthToken: string) => await createApiRequest("GET", `${config.backend}${urls.backend.user.getAdmins}`, {}, AuthToken);
 
-export const deleteAdministrator = async (AuthToken: string, AdministratorID: string) => await createApiRequest("DELETE", `${config.backend}${urls.backend.user.deleteAdministrator}`, {}, AuthToken)
+export const deleteAdministrator = async (AuthToken: string, AdministratorID: string) => await createApiRequest("DELETE", `${config.backend}${urls.backend.user.deleteAdministrator}`, {AdministratorID}, AuthToken)

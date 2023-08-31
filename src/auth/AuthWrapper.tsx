@@ -75,7 +75,6 @@ export const AuthWrapper = () => {
     sessionStorage.removeItem("user");
     setUser({ id: "", name: "", email: "", AuthToken: "" });
     navigate("/");
-    console.log("Redirected from logout!")
   };
 
   return (

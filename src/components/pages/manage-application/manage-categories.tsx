@@ -80,7 +80,6 @@ const ManageCategories = () => {
             callSuccess("Usunięto kategorię!");
             getCategoriesQuery.refetch();
         } catch (error) {
-            console.log(error)
             callError("Błąd podczas usuwania kategorii.")
         }
     }

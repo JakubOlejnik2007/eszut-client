@@ -1,17 +1,14 @@
 /* eslint-disable no-restricted-globals */
 
 self.addEventListener("install", (event) => {
-    console.log("Install event");
     self.skipWaiting();
 });
 
 self.addEventListener("activate", () => {
-    console.log("activate event");
 });
 
 self.addEventListener("push", (e) => {
     const data = e.data.json();
-    console.log(data);
 
     const notificationOptions = {
         body: "Nowe zgłoszenie w bazie danych",

@@ -78,8 +78,7 @@ const ManagePlaces = () => {
             await deletePlace(user.AuthToken, CategoryID);
             callSuccess("Usunięto miejsce!");
             getPlacesQuery.refetch();
-        } catch (error) {
-            console.log(error)
+        } catch {
             callError("Błąd podczas usuwania miejsca.")
         }
     }
