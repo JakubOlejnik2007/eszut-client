@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const DEFAULT_TOAST_TIME_TO_AUTOCLOSE = 1500;
+const DEFAULT_TOAST_TIME_TO_AUTOCLOSE = 4000;
 
 export const callSuccess = (message: string, autoClose: number = DEFAULT_TOAST_TIME_TO_AUTOCLOSE) => {
     toast.success(message, {

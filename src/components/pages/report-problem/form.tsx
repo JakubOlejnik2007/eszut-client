@@ -5,7 +5,7 @@ import FormInput from "../../partials/form-input";
 import { useState, useEffect, FormEvent } from "react";
 import { useQuery } from "react-query";
 import { IFormInputControl } from "../../../types/input";
-import { callError, callLoadingWithPromise, callSuccess } from "../../../utils/toast-notifications/toast";
+import { callError, callLoadingWithPromise } from "../../../utils/toast-notifications/toast";
 import { Alert } from "react-bootstrap";
 import urls from "../../../utils/urls";
 import axios from "axios";
@@ -137,16 +137,12 @@ const ReportProblemForm = () => {
       callError("Brakuje danych do wysłania zgłoszenia!")
     }
     else {
-      const response = await callLoadingWithPromise(
+      await callLoadingWithPromise(
         "Dodawanie zgłoszenia...",
         axios.post(`${config.backend}${urls.backend.problem.insertProblem}`, data),
         "Udało się dodać zgłoszenie!",
         "Nie udało się dodać zgłoszenia!"
       );
-      if (response.status === 200) {
-        callSuccess("Udało się dodać zgłoszenie!");
-        handleReset();
-      }
     }
   }
 
@@ -156,7 +152,7 @@ const ReportProblemForm = () => {
       onSubmit={handleSubmit}
     >
       <h2 className='h3 text-center'>Formularz</h2>
-      {inputs.map((input, _) => {
+      {inputs.map((input) => {
         return (
           <FormInput
             key={input.id}

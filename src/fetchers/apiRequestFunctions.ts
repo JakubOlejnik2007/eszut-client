@@ -103,4 +103,8 @@ export const addNewAdministrator = async (AuthToken: string, name: string, email
 
 export const getAdmins = async (AuthToken: string) => await createApiRequest("GET", `${config.backend}${urls.backend.user.getAdmins}`, {}, AuthToken);
 
-export const deleteAdministrator = async (AuthToken: string, AdministratorID: string) => await createApiRequest("DELETE", `${config.backend}${urls.backend.user.deleteAdministrator}`, {AdministratorID}, AuthToken)
+export const deleteAdministrator = async (AuthToken: string, AdministratorID: string) => await createApiRequest("DELETE", `${config.backend}${urls.backend.user.deleteAdministrator}`, {AdministratorID}, AuthToken);
+
+export const getCommentsToProblem = async (AuthToken: string, ProblemID: string) => await createApiRequest("GET", `${config.backend}${urls.backend.comment.getComments}?ProblemID=${ProblemID}`, {}, AuthToken);
+
+export const insertComment = async (AuthToken: string, ProblemID: string, content: string, AdministratorID: string) => await createApiRequest("POST", `${config.backend}${urls.backend.comment.insertComment}`, {ProblemID, content, AdministratorID}, AuthToken);

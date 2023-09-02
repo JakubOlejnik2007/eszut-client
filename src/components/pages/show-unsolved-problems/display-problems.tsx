@@ -20,7 +20,7 @@ const DisplayUnsolvedProblems = () => {
     const [other, setOther] = useState<IProblem[]>([]);
     const problemsQuery = useQuery("unsolved-problems", () =>
         getUnsolvedProblems(user.AuthToken)
-        , { staleTime: 60000, enabled: !!user.AuthToken });
+        , { staleTime: 10000, enabled: !!user.AuthToken });
 
     const refreshPage = () => {
         problemsQuery.refetch();

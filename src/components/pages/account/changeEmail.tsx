@@ -72,7 +72,7 @@ const ChangeEmail = ({ userEmail, userAuthToken, UserID }: { userEmail: string, 
             resetFormData();
             logout();
         } catch {
-            callError("Wystąpił błąd podczas zmiany adresu email!");
+            callError("Wystąpił błąd podczas zmiany adresu email! Sprawdź poprawność wprowadzonych przez siebie danych", 3000);
         }
     }
 

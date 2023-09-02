@@ -8,6 +8,7 @@ import ConfirmationModal from "../../partials/confirm-modal";
 import TableRow from "../../partials/table-row";
 import { Refresh } from "./display-problems";
 import { putMarkProblemAsUnsolved } from "../../../fetchers/apiRequestFunctions";
+import CommentWrapper from "../../partials/comment-wrapper";
 
 
 const SolvedProblemModal: React.FC<IProblem & {
@@ -40,6 +41,8 @@ const SolvedProblemModal: React.FC<IProblem & {
         }
     }
 
+    console.log(props._id)
+
     return (
         <Modal show={show} onHide={handleClose} centered>
             <Modal.Header closeButton>
@@ -70,7 +73,7 @@ const SolvedProblemModal: React.FC<IProblem & {
                 <Modal.Title>Komentarze</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {/*<CommentsWrapper setError={setError} refresh={restProps.refresh} setRefresh={restProps.setRefresh} ProblemID={restProps._id} />*/}
+                <CommentWrapper ProblemID={props._id} />
             </Modal.Body>
         </Modal>
     )

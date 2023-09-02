@@ -62,10 +62,12 @@ export const AuthWrapper = () => {
             AuthToken: response.data.AuthToken,
           })
         );
+        navigate(urls.client.problems)
         return true;
-      } else {
-        return false;
       }
+      
+      return false;
+    
     } catch {
       return false;
     }

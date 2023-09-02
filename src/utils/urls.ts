@@ -25,8 +25,7 @@ const urls = {
             markProblemAsUnsolved: "/mark-problem-as-unsolved"
         },
         comment: {
-            deleteComment: "/delete-comment",
-            createComment: "/create-comment",
+            insertComment: "/insert-comment",
             getComments: "/get-comments",
         },
         forms: {

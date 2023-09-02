@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthData } from "../../../auth/AuthWrapper";
 import urls from "../../../utils/urls";
 import FormInput from "../../partials/form-input";
@@ -46,23 +46,17 @@ const Login = () => {
      };
 
 
-     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-          event.preventDefault();
-          const form = event.target as HTMLFormElement;
-          const rawdata = new FormData(form);
-          const data = Object.fromEntries(rawdata.entries());
+     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+          e.preventDefault();
           if (
-               !('email' in data && data.email !== "") ||
-               !('password' in data && data.password !== "")
+               !values.email || !values.password
           ) {
-                callError("Wprowadzono błędne lub niewszystkie dane!")
-          } else {
-               let response = await login(String(data.email), String(data.password))
-               if(!response) return;
-               navigate(urls.client.problems)
+               callError("Wprowadzono błędne lub niewszystkie dane!")
+               return;
           }
-     }
 
+          await login(values.email, values.password)
+     }
      return (
           <div>
                <h1 className="text-center">Zaloguj się do panelu administratora</h1>
@@ -91,5 +85,4 @@ const Login = () => {
           </div>
      )
 }
-
 export default Login;

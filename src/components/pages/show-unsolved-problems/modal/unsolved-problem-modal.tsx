@@ -13,6 +13,7 @@ import { Refresh } from "../display-problems";
 import ConfirmationModal from "../../../partials/confirm-modal";
 import { IOnConfirmActionsForUnsolvedProblems, TOnConfirmActionsForUnsolvedProblems } from "../../../../types/confirm-modal";
 import { putMarkProblemAsSolved, putRejectProblem, putTakeOnProblem, putUpdateUnsolvedProblem } from "../../../../fetchers/apiRequestFunctions";
+import CommentWrapper from "../../../partials/comment-wrapper";
 
 const UnsolvedProblemModal: React.FC<IProblem & {
 	show: boolean;
@@ -144,7 +145,9 @@ const UnsolvedProblemModal: React.FC<IProblem & {
 				<Modal.Title>Komentarze</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				{/*<CommentsWrapper setError={setError} refresh={restProps.refresh} setRefresh={restProps.setRefresh} ProblemID={restProps._id} />*/}
+				{
+					<CommentWrapper ProblemID={restProps._id} />
+				}
 			</Modal.Body>
 		</Modal>
 	)

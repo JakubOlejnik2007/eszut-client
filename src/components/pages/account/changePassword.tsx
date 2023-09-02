@@ -94,7 +94,7 @@ const ChangePassword = ({ userAuthToken, UserID }: { userAuthToken: string, User
             callSuccess("Zmieniono hasło!");
             resetFormData();
         } catch {
-            callError("Wystąpił błąd podczas zmiany hasła!");
+            callError("Wystąpił błąd podczas zmiany hasła! Sprawdź poprawnośc wprowadzonych przez siebie danych.", 3000);
         }
     }
 
