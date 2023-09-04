@@ -7,6 +7,7 @@ import Login from "../pages/login/login";
 import ShowUnsolvedProblems from "../pages/show-unsolved-problems/show-unsolved-problems";
 import ArchiveOfProblems from "../pages/show-solved-problems/archive-of-problems";
 import { ManageApplication } from "../pages/manage-application/manage-app-page";
+import LogDataPage from "../pages/log/log-data-page";
 
 export const nav: (INavigation | IGroupedNavigation)[] = [
   {
@@ -42,7 +43,8 @@ export const nav: (INavigation | IGroupedNavigation)[] = [
         isMenu: true,
         isPrivate: true,
       },
-      { id:"4.4", path: urls.client.manageapp, name: "Zarządzanie", element: <ManageApplication />, isMenu: true, isPrivate: true}
+      { id:"4.4", path: urls.client.manageapp, name: "Zarządzanie", element: <ManageApplication />, isMenu: true, isPrivate: true},
+      { id:"4.5", path: urls.client.displaylog, name: "Dziennik LOG", element: <LogDataPage />, isMenu: true, isPrivate: true}
     ],
   },
 ];

@@ -8,7 +8,8 @@ const urls = {
         problems: "/zgloszenia",
         archive: "/archiwum",
         account: "/konto",
-        manageapp: "/zarzadzanie-aplikacja"
+        manageapp: "/zarzadzanie-aplikacja",
+        displaylog: "/dziennik-log"
     },
     backend: {
         auth: {
@@ -45,6 +46,9 @@ const urls = {
             addNewAdministrator: "/add-new-administrator",
             deleteAdministrator: "/delete-administrator",
             getAdmins: "/get-admins"
+        },
+        logs: {
+            getLogData: "/get-logs"
         }
     },
 } as const;
