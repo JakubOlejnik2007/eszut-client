@@ -9,7 +9,6 @@ import { callError, callLoadingWithPromise } from "../../../utils/toast-notifica
 import { Alert } from "react-bootstrap";
 import urls from "../../../utils/urls";
 import axios from "axios";
-import { IProblemForm } from "../../../types/problem";
 import { config } from "../../../utils/config";
 import mapOptions from "../../../utils/map-form-options";
 import { getCategories, getPlaces } from "../../../fetchers/apiRequestFunctions";
@@ -122,16 +121,13 @@ const ReportProblemForm = () => {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    const rawdata = new FormData(form);
-    const data = Object.fromEntries(rawdata.entries()) as unknown as IProblemForm;
 
     if (
-      !('who' in data && data.who !== "") ||
-      !('PlaceID' in data && data.PlaceID !== "") ||
-      !('CategoryID' in data && data.CategoryID !== "") ||
-      !('priority' in data && String(data.priority) !== "") ||
-      !('what' in data && data.what !== "")
+      !formValues.who ||
+      !formValues.what ||
+      !formValues.PlaceID ||
+      !formValues.CategoryID ||
+      !formValues.priority
     ) {
 
       callError("Brakuje danych do wysłania zgłoszenia!")
@@ -139,8 +135,11 @@ const ReportProblemForm = () => {
     else {
       await callLoadingWithPromise(
         "Dodawanie zgłoszenia...",
-        axios.post(`${config.backend}${urls.backend.problem.insertProblem}`, data),
-        "Udało się dodać zgłoszenie!",
+        axios.post(`${config.backend}${urls.backend.problem.insertProblem}`, formValues),
+        () => {
+          handleReset();
+          return "Udało się dodać zgłoszenie!"
+        },
         "Nie udało się dodać zgłoszenia!"
       );
     }

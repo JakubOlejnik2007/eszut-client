@@ -20,7 +20,7 @@ export const callError = (message: string, autoClose: number = DEFAULT_TOAST_TIM
 export const callLoadingWithPromise = async <T>(
     loadingMessage: string,
     promise: Promise<T>,
-    successMessage: string,
+    successMessage: string | (() => string),
     errorMessage: string,
     autoClose: number = DEFAULT_TOAST_TIME_TO_AUTOCLOSE
 ): Promise<T> => {
