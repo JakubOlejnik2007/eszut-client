@@ -7,15 +7,22 @@ const ShowUnsolvedProblems = () => {
             <section className="row p-4">
                 <h1>Aktywne zgłoszenia</h1>
                 <p>
-                    Poniżej umieszczone są informacje o aktywnych zgłoszeniach. Pogrupowane są one w trzy grupy, które odwzorowywują priorytet zgłoszenia. Wyróżnia się trzy poziomy:
+                    Poniżej znajdują się informacje dotyczące bieżących zgłoszeń. Zgłoszenia te są podzielone na trzy priorytety, które odzwierciedlają ich znaczenie i czas reakcji.
+                    Wyróżniamy trzy poziomy priorytetów:
                 </p>
                 <ul>
-                    <li><span className="bg-danger p-1 text-light">Poziom 1</span> - najwyższy. Zgłoszenie w takiej grupie powinno zostać rozwiązane w przeciągu 12h od zgłoszenia. Mówimy tutaj o awariach, które istotnie wpływają na pracę, a znalazienie alternatywnego rozwiązania problemu nie jest bezpośrednio możliwe.</li>
-                    <li><span className="bg-warning p-1">Poziom 2</span> - średni. Zgłoszenie w takiej grupie powinno zostać rozwiązane w przeciągu 24h od zgłoszenia. Mówimy tutaj o awariach, które nie wpływają silnie na pracę, a znalazienie alternatywnego rozwiązania problemu jest możliwe. Długotrwałe utrzymanie alternatywnego rozwiązania nie jest możliwe.</li>
-                    <li>Poziom 3 - najniższy. Zgłoszenie w takiej grupie powinno zostać rozwiązane w przeciągu 48h od zgłoszenia. Mówimy tutaj o awariach, których wpływ na pracę jest znikomy, znalezienie alternatywnego rozwiązania jest możliwe, a długotrwałe jego eksploatowanie nie ma negatywnych konsekwencji.</li>
+                    <li>
+                        <span className="bg-danger p-1 text-light">Priorytet 1</span> - Najwyższy poziom priorytetu. Zgłoszenia z tym priorytetem muszą być rozwiązane w ciągu 12 godzin od momentu zgłoszenia. Dotyczy to awarii, które mają znaczący wpływ na pracę i nie ma możliwości znalezienia natychmiastowego alternatywnego rozwiązania.
+                    </li>
+                    <li>
+                        <span className="bg-warning p-1">Priorytet 2</span> - Średni poziom priorytetu. Zgłoszenia z tym priorytetem powinny zostać rozwiązane w ciągu 24 godzin od zgłoszenia. Dotyczy to awarii, które wpływają na pracę, ale istnieje możliwość znalezienia alternatywnego rozwiązania. Długotrwałe utrzymanie alternatywnego rozwiązania może być trudne.
+                    </li>
+                    <li>
+                        Priorytet 3 - Najniższy poziom priorytetu. Zgłoszenia z tym priorytetem powinny zostać rozwiązane w ciągu 48 godzin od zgłoszenia. Dotyczy to awarii, które mają minimalny wpływ na pracę, istnieje możliwość znalezienia alternatywnego rozwiązania, a długotrwałe korzystanie z tego alternatywnego rozwiązania nie ma negatywnych skutków.
+                    </li>
                 </ul>
                 <p>
-                    Zgłoszenia reprezentowane są tutaj przez tabele. Tabele są oznaczone jednym z kolorów zależnie od ich priorytetu. W przypadku zgłoszeń, których termin został przekroczony oznaczone są <span className="after-deadline">paskiem z zmiennymi kolorami</span>.
+                    Zgłoszenia są przedstawione w formie tabeli, które są oznaczone różnymi kolorami, zależnie od ich priorytetu. Zgłoszenia, których termin został przekroczony, są wyróżnione za pomocą <span className="after-deadline">paska o zmiennej kolorystyce</span>.
                 </p>
             </section>
 

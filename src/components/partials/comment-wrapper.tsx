@@ -61,7 +61,6 @@ const CommentWrapper = ({ProblemID} : ICommentWrapperProps) => {
             handleResetFormData();
             commentsQuery.refetch();
         } catch(error) {
-            console.log(error)
             callError("Wystąpił błąd podczas przesyłania komentarza. Sprawdź treść swojego komentarza i spróbuj ponownie!")
         }
 
@@ -83,8 +82,6 @@ const CommentWrapper = ({ProblemID} : ICommentWrapperProps) => {
             </div>
         </div>
     );
-
-        console.log(commentsQuery.data)
 
     return (
         <section>

@@ -10,13 +10,13 @@ import { deleteCategory, getCategories, insertNewCategory } from "../../../fetch
 import { AuthData } from "../../../auth/AuthWrapper";
 import "../../../styles/list-container.css"
 
-interface IInsertCategoryValues { newCategoryName: string };
+interface IInsertCategoryValues { newCategoryName: string, priority: string };
 
 const ManageCategories = () => {
 
     const { user } = AuthData();
 
-    const [insertCategoryValues, setInsertCategoryValues] = useState<IInsertCategoryValues>({ newCategoryName: "" })
+    const [insertCategoryValues, setInsertCategoryValues] = useState<IInsertCategoryValues>({ newCategoryName: "", priority:"3" })
 
     const getCategoriesQuery = useQuery("categories", getCategories, { staleTime: 60000 });
 
@@ -27,7 +27,18 @@ const ManageCategories = () => {
             type: "text",
             placeholder: "Nazwa nowej kategorii...",
             label: "Nazwa nowej kategorii:"
-        }
+        },
+        {
+            id: 5,
+            name: "priority",
+            type: "select",
+            label: "Priorytet usterki:",
+            options: [
+                { value: "3", label: "Najniższy" },
+                { value: "2", label: "Średni" },
+                { value: "1", label: "Najwyższy" },
+            ],
+        },
     ]
 
     useEffect(() => {
@@ -65,7 +76,7 @@ const ManageCategories = () => {
     const handleOnInsertCategoryFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            await insertNewCategory(user.AuthToken, insertCategoryValues.newCategoryName)
+            await insertNewCategory(user.AuthToken, insertCategoryValues.newCategoryName, insertCategoryValues.priority)
             handleResetFormData();
             callSuccess("Dodano nową kategorię!")
             getCategoriesQuery.refetch();
@@ -92,10 +103,11 @@ const ManageCategories = () => {
                 <div className="list-container">
                     {
                         getCategoriesQuery.data.map((element: ICategory) => {
-                            return <ListGroup.Item key={Math.random()} className="d-flex justify-content-between">{element.name}
+                            return <ListGroup.Item key={Math.random()} className="d-flex justify-content-between">{element.name} [{element.priority}]
                                 <Button variant="danger" onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleDeleteCategory(element._id)}>
                                     <i className="bi bi-x-circle"></i>
-                                </Button></ListGroup.Item>
+                                </Button>
+                                </ListGroup.Item>
                         })
                     }
                 </div>

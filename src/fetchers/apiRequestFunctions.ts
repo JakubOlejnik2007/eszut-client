@@ -18,8 +18,8 @@ export const getSolvedProblems = async (AuthToken: string, page: number) =>
         AuthToken
     );
 
-export const insertNewCategory = async (AuthToken: string, name: string) =>
-    await createApiRequest("POST", `${config.backend}${urls.backend.forms.insertNewCategory}`, { name }, AuthToken);
+export const insertNewCategory = async (AuthToken: string, name: string, priority: string) =>
+    await createApiRequest("POST", `${config.backend}${urls.backend.forms.insertNewCategory}`, { name, priority }, AuthToken);
 
 export const deleteCategory = async (AuthToken: string, CategoryID: string) =>
     await createApiRequest(

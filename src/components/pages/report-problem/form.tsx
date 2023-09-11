@@ -107,17 +107,6 @@ const ReportProblemForm = () => {
       label: "Kategoria zgłoszenia",
       options: mapOptions(categories),
     },
-    {
-      id: 5,
-      name: "priority",
-      type: "select",
-      label: "Priorytet usterki:",
-      options: [
-        { value: "3", label: "Najniższy" },
-        { value: "2", label: "Średni" },
-        { value: "1", label: "Najwyższy" },
-      ],
-    },
   ];
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -130,7 +119,6 @@ const ReportProblemForm = () => {
       !('who' in data && data.who !== "") ||
       !('PlaceID' in data && data.PlaceID !== "") ||
       !('CategoryID' in data && data.CategoryID !== "") ||
-      !('priority' in data && String(data.priority) !== "") ||
       !('what' in data && data.what !== "")
     ) {
 

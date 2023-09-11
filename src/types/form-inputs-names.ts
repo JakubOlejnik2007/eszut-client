@@ -1,8 +1,8 @@
-export type TReportFormNames = "priority" | "CategoryID" | "PlaceID" | "who" | "what";
+export type TReportFormNames =  "CategoryID" | "PlaceID" | "who" | "what";
 export type TLoginFormNames = "password" | "email";
 export type TChangePasswordNames = "oldPassword" | "newPassword" | "confirmNewPassword";
 export type TChangeEmailNames = "newEmail";
-export type TInsertCategoryNames = "newCategoryName";
+export type TInsertCategoryNames = "newCategoryName" | "priority";
 export type TInsertPlaceNames = "newPlaceName";
 export type TChangeCategory = "category";
 export type TChangePlace = "place";

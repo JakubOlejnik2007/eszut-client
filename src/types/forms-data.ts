@@ -5,7 +5,8 @@ export interface IPlace {
 
 export interface ICategory {
     _id: string,
-    name: string
+    name: string,
+    priority: string
 }
 
 export interface IOption {

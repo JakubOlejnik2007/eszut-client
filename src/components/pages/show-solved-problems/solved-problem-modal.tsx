@@ -41,7 +41,6 @@ const SolvedProblemModal: React.FC<IProblem & {
         }
     }
 
-    console.log(props._id)
 
     return (
         <Modal show={show} onHide={handleClose} centered>
