@@ -193,7 +193,7 @@ const AddAdministrator = () => {
                     <div className="list-container">
                         {
                             getAdminsQuery.data.map((element: IAdministrator) => {
-                                return <ListGroup.Item key={Math.random()} className="d-flex justify-content-between">{element.name}
+                                return <ListGroup.Item key={Math.random()} className="d-flex justify-content-between">{element.email} [{element.name}]
                                     <Button variant="danger" onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleDeleteAdministrator(element._id)}>
                                         <i className="bi bi-x-circle"></i>
                                     </Button></ListGroup.Item>

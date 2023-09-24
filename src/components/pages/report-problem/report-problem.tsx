@@ -1,7 +1,7 @@
 import ReportProblemForm from "./form";
 
 const ReportProblem = () => {
-  
+
 
   return (
     <div>
@@ -18,6 +18,12 @@ const ReportProblem = () => {
             usterki (numer sali), a także pozostawić zwięzły opis tego co się
             stało oraz wybrać jedną z dostępnych kategorii zgłoszenia.
             Do zgłoszenia jest przypisywany domyślny priorytet, który wynika z kategorii.
+          </p>
+          <p className="small text-center">
+            Autor aplikacji:{' '}
+            <em className="fw-bold">
+              Jakub Olejnik 2C
+            </em>{' '}&copy; 2023
           </p>
         </div>
         <div className='col-sm-7 p-3 order-1 order-sm-2'>
