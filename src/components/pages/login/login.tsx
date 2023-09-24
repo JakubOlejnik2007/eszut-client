@@ -1,8 +1,6 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { AuthData } from "../../../auth/AuthWrapper";
-import urls from "../../../utils/urls";
 import FormInput from "../../partials/form-input";
 import { IFormInputControl } from "../../../types/input";
 import { TLoginFormNames } from "../../../types/form-inputs-names";
@@ -21,8 +19,6 @@ const Login = () => {
      });
 
      const { login } = AuthData();
-
-     const navigate = useNavigate();
 
      const inputs: IFormInputControl<TLoginFormNames>[] = [
           {
@@ -75,7 +71,7 @@ const Login = () => {
                               )
                          })}
                          <div className="d-flex">
-                              <Button variant="primary" type="submit" className="text-center m-auto">
+                              <Button variant="primary" type="submit" className="text-center m-auto my-2">
                                    Zaloguj
                               </Button></div>
 

@@ -117,7 +117,7 @@ const ManageCategories = () => {
                         {insertNewCategoryFormControls.map(input => {
                             return <FormInput key={input.id} {...input} value={insertCategoryValues[input.name]} onChange={handleOnChange} />
                         })}
-                        <Button variant="primary" type="submit">Dodaj kategorię</Button>
+                        <Button className="my-2" variant="primary" type="submit">Dodaj kategorię</Button>
 
                     </Form>
                 </ListGroup.Item>

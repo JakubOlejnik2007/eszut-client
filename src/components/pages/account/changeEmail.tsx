@@ -83,7 +83,7 @@ const ChangeEmail = ({ userEmail, userAuthToken, UserID }: { userEmail: string, 
             {changeEmailFormControls.map(input => {
                 return <FormInput key={input.id} {...input} value={changeEmailValues[input.name]} onChange={handleOnChange} />
             })}
-            <Button variant="primary" type="submit">Zatwierdź zmianę adresu email</Button>
+            <Button variant="primary" type="submit" className="my-2">Zatwierdź zmianę adresu email</Button>
             <ConfirmationModal show={showConfirmationModal} onHide={handleOnHide} onConfirm={handleChangeEmailConfirm} />
         </Form>
     )

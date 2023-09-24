@@ -106,7 +106,7 @@ const ManagePlaces = () => {
                         {insertNewCategoryFormControls.map(input => {
                             return <FormInput key={input.id} {...input} value={insertPlaceValues[input.name]} onChange={handleOnChange} />
                         })}
-                        <Button variant="primary" type="submit">Dodaj miejsce</Button>
+                        <Button className="my-2" variant="primary" type="submit">Dodaj miejsce</Button>
 
                     </Form>
                 </ListGroup.Item>

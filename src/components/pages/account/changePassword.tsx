@@ -105,7 +105,7 @@ const ChangePassword = ({ userAuthToken, UserID }: { userAuthToken: string, User
             {changePasswordFormControls.map(input => {
                 return <FormInput key={input.id} {...input} value={changePasswordValues[input.name]} onChange={handleOnChange} />
             })}
-            <Button variant="primary" type="submit">Zatwierdź zmianę hasła</Button>
+            <Button className="my-2" variant="primary" type="submit">Zatwierdź zmianę hasła</Button>
             <ConfirmationModal show={showConfirmationModal} onHide={handleOnHide} onConfirm={handleChangePasswordConfirm} />
         </Form>
     )

@@ -183,7 +183,7 @@ const AddAdministrator = () => {
                             return <FormInput key={input.id} {...input} value={addAdministratorValues[input.name]} onChange={handleOnChange} />
                         })
                     }
-                    <Button variant="primary" type="submit">Dodaj administratora</Button>
+                    <Button className="my-2" variant="primary" type="submit">Dodaj administratora</Button>
                 </Form>
             </article>
             <article className="col-md-6">

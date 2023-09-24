@@ -132,10 +132,10 @@ const UnsolvedProblemModal: React.FC<IProblem & {
 				<TableRow first_col={"Termin"} second_col={deadline.toLocaleString("pl")} />
 				<TableRow first_col={"Realizowane"} second_col={restProps.isUnderRealization ? "Tak" : "Nie"} />
 				{
-					user.id === props.whoDealsID && props.isUnderRealization ? <><TableRow first_col={"Zrezygnuj"} second_col={<Button onClick={handleOnClickRejectProblemButton}>Zrezygnuj z  problemu</Button>} />
-						<TableRow first_col={"Czy rozwiązany?"} second_col={<Button onClick={handleOnClickMarkProblemAsSolvedButton}>Oznacz problem jako rozwiązany</Button>} /></>
+					user.id === props.whoDealsID && props.isUnderRealization ? <><TableRow first_col={"Zrezygnuj"} second_col={<Button className="my-2" onClick={handleOnClickRejectProblemButton}>Zrezygnuj z  problemu</Button>} />
+						<TableRow first_col={"Czy rozwiązany?"} second_col={<Button className="my-2" onClick={handleOnClickMarkProblemAsSolvedButton}>Oznacz problem jako rozwiązany</Button>} /></>
 						: restProps.isUnderRealization ? <TableRow first_col={"Realizujący"} second_col={restProps.whoDeals} />
-							: <TableRow first_col={"Podejmij problem"} second_col={<Button onClick={handleOnClickTakeOnProblemButton}>Podejmij problem</Button>} />
+							: <TableRow first_col={"Podejmij problem"} second_col={<Button className="my-2" onClick={handleOnClickTakeOnProblemButton}>Podejmij problem</Button>} />
 				}
 				<Button variant="secondary" onClick={handleOnClickUpdateProblem} className="mt-3">
 					Zapisz
