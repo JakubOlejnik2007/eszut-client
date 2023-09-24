@@ -1,18 +1,17 @@
-import { useState, useEffect, createContext, useContext } from "react";
-import { Alert } from "react-bootstrap";
+import { useState, useEffect, createContext, useContext, ChangeEvent } from "react";
+import { Alert, Form } from "react-bootstrap";
 import { useQuery } from "react-query";
 import { AuthData } from "../../../auth/AuthWrapper";
 import IProblem from "../../../types/problem";
 import { callError } from "../../../utils/toast-notifications/toast";
 import UnsolvedProblem from "./unsolved-problem";
 import { getUnsolvedProblems } from "../../../fetchers/apiRequestFunctions";
-
+import calculateDates from "../../../utils/calculate-dates";
 const RefreshContext = createContext<{ refreshPage: () => void }>({ refreshPage: () => { } })
 
 export const Refresh = () => useContext(RefreshContext);
 
 const DisplayUnsolvedProblems = () => {
-
     const [refresh, setRefresh] = useState<boolean>(false);
     const { user } = AuthData();
     const [underYou, setUnderYou] = useState<IProblem[]>([]);
@@ -26,6 +25,48 @@ const DisplayUnsolvedProblems = () => {
         problemsQuery.refetch();
         setRefresh(!refresh)
     };
+
+    const sort = (e: ChangeEvent<HTMLSelectElement>) => {
+        e.preventDefault();
+        switch (e.target.value) {
+            case "default": sortFunc(sortingPatterns.byDateDesc); sortFunc(sortingPatterns.byPriority); break;
+            case "category": sortFunc(sortingPatterns.byCategory); break;
+            case "date-down": sortFunc(sortingPatterns.byDateDesc); break;
+            case "date-up": sortFunc(sortingPatterns.byDateAsc); break;
+            case "priority": sortFunc(sortingPatterns.byPriority); break;
+            case "deadline": sortFunc(sortingPatterns.byDeadline); break;
+        }
+    }
+
+    type TSortingPattern = (a: IProblem, b: IProblem) => number
+
+    interface ISortingPatterns {
+        byCategory: TSortingPattern;
+        byDateAsc: TSortingPattern;
+        byDateDesc: TSortingPattern;
+        byPriority: TSortingPattern;
+        byDeadline: TSortingPattern;
+    }
+
+    const sortingPatterns: ISortingPatterns = {
+        byCategory: (a, b) => a.categoryName.localeCompare(b.categoryName),
+        byDateAsc: (a, b) => a.when - b.when,
+        byDateDesc: (a, b) => b.when - a.when,
+        byPriority: (a, b) => Number(a.priority) - Number(b.priority),
+        byDeadline: (a, b) => Number(calculateDates(Number(a.priority), a.when).deadline) - Number(calculateDates(Number(b.priority), b.when).deadline)
+    }
+
+    const sortFunc = (pattern: ((a: IProblem, b: IProblem) => number)) => {
+        const sortedUnderYou = [...underYou].sort(pattern);
+        setUnderYou(sortedUnderYou);
+
+        const sortedUnderRealization = [...underRealization].sort(pattern);
+        setUnderRealization(sortedUnderRealization);
+
+        const sortedOther = [...other].sort(pattern);
+        setOther(sortedOther);
+    }
+
 
     useEffect(() => {
         if (
@@ -68,7 +109,15 @@ const DisplayUnsolvedProblems = () => {
     return (
 
         <RefreshContext.Provider value={{ refreshPage }}>
-            <section>
+            <section className="container">
+                <Form.Select className="ms-auto mr-0 w-50" onChange={(e: ChangeEvent<HTMLSelectElement>) => sort(e)}>
+                    <option value="default">Domyślne</option>
+                    <option value="date-down">Data &darr;</option>
+                    <option value="date-up">Data &uarr;</option>
+                    <option value="category">Kategoria</option>
+                    <option value="priority">Priorytet</option>
+                    <option value="deadline">Priorytet</option>
+                </Form.Select>
                 <div className="row g-3">
                     <h2>Realizowane przez Ciebie</h2>
                     {
