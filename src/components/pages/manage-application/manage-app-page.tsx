@@ -1,5 +1,6 @@
 import AddAdministrator from "./manage-administrators"
 import ManageCategories from "./manage-categories"
+import ChangePIN from "./manage-pin"
 import ManagePlaces from "./manage-places"
 
 export const ManageApplication = () => {
@@ -13,6 +14,9 @@ export const ManageApplication = () => {
                     </div>
                     <div className="col-md-6">
                          <ManagePlaces />
+                    </div>
+                    <div className="col-md-12">
+                         <ChangePIN />
                     </div>
                     <div className="row">
                          <AddAdministrator />

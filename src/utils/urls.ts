@@ -35,7 +35,8 @@ const urls = {
             insertNewCategory: "/insert-category",
             insertNewPlace: "/insert-place",
             deleteCategory: "/delete-category",
-            deletePlace: "/delete-place"
+            deletePlace: "/delete-place",
+            putNewPIN: "/new-pin"
         },
         push: {
             subscribe: "/subscribe"

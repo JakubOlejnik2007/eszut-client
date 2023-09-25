@@ -19,7 +19,7 @@ interface IFormValues {
   PlaceID: string,
   what: string,
   CategoryID: string,
-  priority: number
+  pin: string
 }
 
 const ReportProblemForm = () => {
@@ -32,7 +32,7 @@ const ReportProblemForm = () => {
     PlaceID: "",
     what: "",
     CategoryID: "",
-    priority: 3,
+    pin: ""
   });
 
 
@@ -72,7 +72,7 @@ const ReportProblemForm = () => {
       PlaceID: "",
       what: "",
       CategoryID: "",
-      priority: 3,
+      pin: ""
     });
   };
 
@@ -107,6 +107,13 @@ const ReportProblemForm = () => {
       label: "Kategoria zgłoszenia",
       options: mapOptions(categories),
     },
+    {
+      id: 5,
+      name: "pin",
+      type: "password",
+      label: "PIN autoryzujący:",
+      placeholder: "PIN..."
+    }
   ];
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -115,11 +122,14 @@ const ReportProblemForm = () => {
     const rawdata = new FormData(form);
     const data = Object.fromEntries(rawdata.entries()) as unknown as IProblemForm;
 
+
+
     if (
       !('who' in data && data.who !== "") ||
       !('PlaceID' in data && data.PlaceID !== "") ||
       !('CategoryID' in data && data.CategoryID !== "") ||
-      !('what' in data && data.what !== "")
+      !('what' in data && data.what !== "") ||
+      !('pin' in data && data.pin !== "")
     ) {
 
       callError("Brakuje danych do wysłania zgłoszenia!")
@@ -127,7 +137,10 @@ const ReportProblemForm = () => {
     else {
       await callLoadingWithPromise(
         "Dodawanie zgłoszenia...",
-        axios.post(`${config.backend}${urls.backend.problem.insertProblem}`, data),
+        axios.post(`${config.backend}${urls.backend.problem.insertProblem}`, {
+          ...data,
+          when: Date.now()
+        }),
         () => {
           handleReset();
           return "Udało się dodać zgłoszenie!"
