@@ -1,7 +1,7 @@
 import TFormNames from "./form-inputs-names";
 import { IOption } from "./forms-data";
 
-type TInputTypes = "text" | "password" | "email" | "textarea" | "select";
+type TInputTypes = "text" | "password" | "email" | "textarea" | "select" | "checkbox";
 
 export interface IFormInputControl<T extends TFormNames> {
     id: number;

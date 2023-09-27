@@ -23,7 +23,8 @@ const urls = {
             takeOnProblem: "/take-on-problem",
             rejectProblem: "/reject-problem",
             markProblemAsSolved: "/mark-problem-as-solved",
-            markProblemAsUnsolved: "/mark-problem-as-unsolved"
+            markProblemAsUnsolved: "/mark-problem-as-unsolved",
+            deleteProblems: "/delete-problems"
         },
         comment: {
             insertComment: "/insert-comment",
