@@ -109,6 +109,7 @@ export const getCommentsToProblem = async (AuthToken: string, ProblemID: string)
 
 export const insertComment = async (AuthToken: string, ProblemID: string, content: string, AdministratorID: string) => await createApiRequest("POST", `${config.backend}${urls.backend.comment.insertComment}`, {ProblemID, content, AdministratorID}, AuthToken);
 
-export const getLogData = async (AuthToken: string, page: number) => await createApiRequest("GET", `${config.backend}${urls.backend.logs.getLogData}?page=${page}`, {}, AuthToken);
+export const getLogData = async (AuthToken: string, page: number) => await createApiRequest("GET", `${config.backend}${urls.backend.logs.getLogData}?page=${page}`, {}, AuthToken)
 
-export const putNewPIN = async (AuthToken: string, newPIN: string) => await createApiRequest("PUT", `${config.backend}${urls.backend.forms.putNewPIN}`, {newPIN}, AuthToken);
+export const deleteProblems = async (AuthToken: string, problems: FormDataEntryValue[]) => await createApiRequest("DELETE", `${config.backend}${urls.backend.problem.deleteProblems}`, {problems}, AuthToken);
+

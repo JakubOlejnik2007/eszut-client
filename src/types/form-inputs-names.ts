@@ -8,6 +8,7 @@ export type TChangeCategory = "category";
 export type TChangePlace = "place";
 export type TAddAdministrator = "name" | "email" | "password";
 export type TInsertComment = "content"
-export type TSetNewPIN = "newPIN"
-type TFormNames = TReportFormNames | TLoginFormNames | TChangePasswordNames | TChangeEmailNames | TInsertCategoryNames | TInsertPlaceNames | TChangeCategory | TChangePlace | TAddAdministrator | TInsertComment | TSetNewPIN;
+export type TDeleteProblems = "toDelete"
+type TFormNames = TReportFormNames | TLoginFormNames | TChangePasswordNames | TChangeEmailNames | TInsertCategoryNames | TInsertPlaceNames | TChangeCategory | TChangePlace | TAddAdministrator | TInsertComment | TDeleteProblems;
+
 export default TFormNames;

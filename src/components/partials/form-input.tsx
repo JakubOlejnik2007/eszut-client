@@ -15,6 +15,8 @@ const FormInput: React.FC<IFormInputComponentProps<TFormNames>> = (props) => {
     controlProps.as = "textarea";
   } else if (type === "select") {
     controlProps.as = "select";
+  } else if (type === "checkbox") {
+    controlProps.type = "checkbox";
   } else {
     controlProps.type = type;
   }
@@ -22,17 +24,23 @@ const FormInput: React.FC<IFormInputComponentProps<TFormNames>> = (props) => {
   return (
     <Form.Group className='m-1'>
       <Form.Label htmlFor={String(id)}>{label}</Form.Label>
-      {type === "select" ? (
-        <Form.Select {...controlProps} {...inputProps}>
-          {options &&
-            options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-        </Form.Select>
+      {type === "checkbox" ? (
+        <Form.Check {...controlProps} {...inputProps} />
       ) : (
-        <Form.Control {...controlProps} {...inputProps} />
+        <>
+          {type === "select" ? (
+            <Form.Select {...controlProps} {...inputProps}>
+              {options &&
+                options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+            </Form.Select>
+          ) : (
+            <Form.Control {...controlProps} {...inputProps} />
+          )}
+        </>
       )}
     </Form.Group>
   );
