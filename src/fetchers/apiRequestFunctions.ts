@@ -112,3 +112,4 @@ export const insertComment = async (AuthToken: string, ProblemID: string, conten
 export const getLogData = async (AuthToken: string, page: number) => await createApiRequest("GET", `${config.backend}${urls.backend.logs.getLogData}?page=${page}`, {}, AuthToken)
 
 export const deleteProblems = async (AuthToken: string, problems: FormDataEntryValue[]) => await createApiRequest("DELETE", `${config.backend}${urls.backend.problem.deleteProblems}`, {problems}, AuthToken);
+
